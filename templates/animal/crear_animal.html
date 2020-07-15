@@ -1,0 +1,86 @@
+{% extends "master.html"%}
+{% block title %}Crear Animal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card-formulario">
+        <form method="POST" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            <div class="mt-2">
+                <div class="form-group">
+                    {% if form.instance.imagen %}
+                    <img id="blah" class="img-vistaprevia-crear" src="{{ form.instance.imagen.url }}"
+                        alt="Tu imagen" />
+                    {% else %}
+                    <img id="blah" class="img-vistaprevia-crear" src="https://via.placeholder.com/300x300.png"
+                        alt="Tu imagen" />
+                    {% endif %}
+                    <label id="fichero" class="btn btn-secondary" for="imagen">Elija archivo</label>
+                    {{form.imagen}}
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.nombre.label}}</div>
+                <div class="col-12 col-lg-6 col-md-9">{{form.nombre}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.especie.label}}</div>
+                <div class="col-12 col-lg-3 col-md-9">{{form.especie}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.descripcion.label}}</div>
+                <div class="col-12 col-md-9">{{form.descripcion}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.fecha_nacimiento.label}}</div>
+                <div class="col-12 col-lg-3 col-md-9">{{form.fecha_nacimiento}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.sexo.label}}</div>
+                <div class="col-12 col-lg-3 col-md-9">{{form.sexo}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.esterilizado.label}}</div>
+                <div class="col-12 col-md-9">{{form.esterilizado}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.fecha_llegada.label}}</div>
+                <div class="col-12 col-lg-3 col-md-9">{{form.fecha_llegada}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.peso.label}}</div>
+                <div class="col-12 col-lg-3 col-md-9">{{form.peso}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.tamaño.label}}</div>
+                <div class="col-12 col-lg-3 col-md-9">{{form.tamaño}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.id_adoptante.label}}</div>
+                <div class="col-12 col-md-9">{{form.id_adoptante}}</div>
+            </div>
+            <div class="mt-2">
+                <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result); // Renderizamos la imagen
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#imagen").change(function () {
+        // Código a ejecutar cuando se detecta un cambio de archivO
+        readImage(this);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "master.html" %}
+{% block title %}
+CEMP | Inicio
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+        <div class="col px-0">
+            <h1 class="display-4 font-italic">Bienvenido a la pagina de adopción de CEMP</h1>
+        </div>
+    </div>
+</div>
+
+<main role="main" class="container">
+    <div class="blog-post">
+        {% if user.is_authenticated %}
+        <h1>Welcome, {{ user.username }}. Thanks for logging in.</h1>
+        {% else %}
+        <h1>Welcome, new user. Please log in.</h1>
+        {% endif %}
+        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum
+            nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus
+            commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <ul>
+            <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
+            <li>Donec id elit non mi porta gravida at eget metus.</li>
+            <li>Nulla vitae elit libero, a pharetra augue.</li>
+        </ul>
+        <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum.
+            Aenean lacinia bibendum nulla sed consectetur.</p>
+        <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.Donec
+            ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.Donec ullamcorper
+            nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.Donec ullamcorper nulla non
+            metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.Donec ullamcorper nulla non metus auctor
+            fringilla. Nulla vitae elit libero, a pharetra augue.Donec ullamcorper nulla non metus auctor fringilla.
+            Nulla vitae elit libero, a pharetra augue.Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae
+            elit libero, a pharetra augue.</p>
+    </div>
+</main>
+{% endblock %}

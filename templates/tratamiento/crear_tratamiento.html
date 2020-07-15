@@ -1,0 +1,27 @@
+{% extends "master.html"%}
+{% block title %}Agregar tratamiento{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card-formulario">
+        <form method="POST" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.nombre.label}}</div>
+                <div class="col-12 col-lg-6 col-md-9">{{form.nombre}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.descripcion.label}}</div>
+                <div class="col-12 col-lg-6 col-md-9">{{form.descripcion}}</div>
+            </div>
+            <div class="row form-group">
+                <div class="col col-md-3">{{form.activo.label}}</div>
+                <div class="col-12 col-lg-6 col-md-9">{{form.activo}}</div>
+            </div>
+            <div class="mt-2">
+                <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Confimar eliminación
+{% endblock title %}
+
+
+{% block content %}
+<div class="container">
+    <div class="text-center" style="margin:10rem;">
+        <form method="POST">
+            {% csrf_token %}
+            <h2><strong>¿Esta seguro que desea eliminar el tratamineto: {{tratamiento}}?</strong></h2>
+            <a href="{% url 'animal:listar_tratamiento' %}" class="btn btn-warning">Cancelar</a>
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

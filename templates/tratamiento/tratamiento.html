@@ -1,0 +1,41 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block title %}Animales{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_staff %}
+    <div class="contenedor-crear col-lg-3 col-md-4 col-sm-12">
+        <a href="{% url 'animal:crear_tratamiento' %}" class="btn btn-lg btn-block btn-info">Crear</a>
+    </div>
+    {% endif %}
+    {% if tratamientos %}
+    <div class="table-responsive" style="margin-top: 2rem;">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tratamiento in tratamientos %}
+                <tr>
+                    <td>{{tratamiento.id}}</td>
+                    <td>{{tratamiento.nombre}}</td>
+                    <td>{{tratamiento.descripcion}}</td>
+                    <td><a href="{% url 'animal:editar_tratamiento' tratamiento.id %}" class="btn btn-lg btn-secondary">Editar</a></td>
+                    <td><a href="{% url 'animal:eliminar_tratamiento' tratamiento.id %}" class="btn btn-lg btn-danger">Elimnar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <h1>No hay tratamientos</h1>
+    {% endif %}
+</div>
+{% endblock %}

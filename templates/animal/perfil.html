@@ -1,0 +1,136 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block title %}Perfil{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="header">
+    <div class="portada-contenedor">
+      <img
+        src="https://www.ecestaticos.com/imagestatic/clipping/0a6/095/0a6095e5561df9e8e55aa77eccc57cb2/por-que-los-perros-son-mas-inteligentes-que-los-gatos-segun-la-ciencia.jpg?mtime=1579565836"
+        class="img-portada">
+    </div>
+    <div class="perfilfoto-contenedor">
+      {% if animal.imagen %}
+      <img src="{{ animal.imagen.url }}" class="perfilfoto">
+      {% else %}
+      <img src="{% static 'sin_foto.jpg' %}" class="perfilfoto">
+      {% endif %}
+    </div>
+    <br>
+    <div class="coltext-center menuperfil">
+      <h1>{{animal.nombre}}</h1>
+      <div class="row">
+        <div class="col">
+          <a class="btn" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+            aria-controls="collapseExample">
+            Info
+          </a>
+        </div>
+        <div class="col">Fotos</div>
+        <div class="col">Opciones</div>
+      </div>
+      <div class="col collapse" id="collapseExample" style="text-align: justify; margin-top: 10px;">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><strong>Especie:</strong></td>
+              <td>{{animal.especie}}</td>
+            </tr>
+            <tr>
+              <td><strong>Sexo:</strong></td>
+              <td>{{animal.sexo}}</td>
+            </tr>
+            <tr>
+              <td><strong>Tamaño:</strong></td>
+              <td>{{animal.tamaño}}</td>
+            </tr>
+            <tr>
+              <td><strong>Edad:</strong></td>
+              <td>
+                {% if animal.getEdad.0 == 1 %}
+                {{animal.getEdad.0}} año
+                {% elif animal.getEdad.0 > 1 %}
+                {{animal.getEdad.0}} años
+                {% endif %}
+                {% if animal.getEdad.1 == 1 %}
+                {{animal.getEdad.1}} mes
+                {% elif animal.getEdad.1 > 1 %}
+                {{animal.getEdad.1}} meses
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Peso:</strong></td>
+              <td>{{animal.peso}} Kg</td>
+            </tr>
+            {% if animal.esterilizado %}
+            <tr>
+              <td><strong>Esterilizado:</strong></td>
+              <td>Sí</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td><strong>Esterilizado:</strong></td>
+              <td>No</td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td><strong>Descripcion:</strong></td>
+              <td>{{animal.descripcion}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <br>
+  </div>
+
+  <!-- 
+  <div style="display: flex;">
+    <div style=" min-height: 400px;flex:1;">
+      <div class="personal_bar">
+        Contactos<br>
+        <div class="personal">
+          Estado:Adoptado
+        </div>
+        <div class="personal">
+          Edad: 2 meses
+        </div>
+        <div class="personal">
+          Fecha llegada: 2 marzo 2020
+        </div>
+        <div class="personal">
+          Especie: Gato
+        </div>
+        <div class="personal">
+          Sexo: Femenino
+        </div>
+        <div class="personal">
+          Peso: 1kg
+        </div>
+        <div class="personal">
+          descripcion: Amoroso y tierno
+        </div>
+
+
+      </div>
+    </div>
+  -->
+
+  {% if user.is_authenticated %}
+  {% if user.username|striptags == animal.id_adoptante|striptags  %}
+  <div class="col-lg-6">
+    <div class="input-group mb-3">
+      <textarea class="form-control" aria-label="With textarea"></textarea>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon1">Subir</button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+
+
+</div>
+{% endblock %}

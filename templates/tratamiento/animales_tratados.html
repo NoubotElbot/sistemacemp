@@ -1,0 +1,47 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block title %}Animales{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_staff %}
+    <div class="contenedor-crear col-lg-3 col-md-4 col-sm-12">
+        <a href="{% url 'animal:crear_tratado' %}" class="btn btn-lg btn-block btn-info">Crear</a>
+    </div>
+    {% endif %}
+    {% if tratados %}
+    <div class="table-responsive" style="margin-top: 2rem;">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th></th>
+                    <th>ID y nombre</th>
+                    <th>Tratamiento</th>
+                    <th>Fecha</th>
+                    <th>Comentario</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tratado in tratados %}
+                <tr>
+                    <td><div class="contenedor_img"><img src="{{tratado.animal.imagen.url}}" class="imagen-tb" loading="lazy"></div></td>
+                    <td>{{tratado.animal}}</td>
+                    <td>{{tratado.tratamiento}}</td>
+                    <td>{{tratado.fecha_tratamiento|date:"d/m/Y"}}</td>
+                    <td>{{tratado.comentario}}</td>
+                    <td>{{tratado.estado}}</td>
+                    <td><a href="{% url 'animal:editar_tratado' tratado.id %}" class="btn btn-lg btn-secondary">Editar</a> <a href="#" class="btn btn-lg btn-danger">Elimnar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center">
+        <h1>No hay Animales tratados</h1>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

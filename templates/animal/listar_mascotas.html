@@ -1,0 +1,53 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block title %}Animales{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="col-md-12 search">
+        <form method="GET">
+            <div class="input-group mb-3">
+                <input name="buscar" type="text" class="form-control" placeholder="Buscar..." aria-label="Recipient's username" aria-describedby="button-addon2" value="{{request.GET.buscar}}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-success" type="submit" id="button-addon2">Buscar</button>
+                </div>
+              </div>
+        </form>
+    </div>
+    {% if animales %}
+    <div class="row" style="margin-top: 1rem;">
+        {% for animal in animales %}
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="contenedor_img">
+                    {% if animal.imagen %}
+                    <img src="{{ animal.imagen.url }}" class="imagen-an" loading="lazy">
+                    {% else %}
+                    <img src="{% static 'sin_foto.jpg' %}" class="imagen-an" loading="lazy">
+                    {% endif %}
+                </div>
+                <div class="card-body text-center">
+                    <h2 class="card-title">{{animal.nombre}}</h2>
+                    <p class="card-text">{{animal.sexo}}</p>
+                    <p class="card-text">{{animal.especie}}</p>
+                    <hr>
+                    <a href="{% url 'animal:perfil' animal.id %}" class="btn btn-adoptar">Ver perfil</a>
+                    <hr>                
+                    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example" style="width: 100%;">
+                        <a href="{% url 'animal:editar_animal' animal.id %}" class="btn btn-lg btn-secondary">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center">
+        <h1>No tienes ningun animal adoptado. Adopta uno!!</h1>
+        <a href="{% url 'animal:listar_animal' %}" class="btn btn-secondary">Ver animalitos</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
