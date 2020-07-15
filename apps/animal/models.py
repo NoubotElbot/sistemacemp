@@ -51,7 +51,6 @@ class Animal(models.Model):
     )
     id                  = models.AutoField(primary_key=True)
     nombre              = models.CharField("Nombre",max_length=50, blank=False, null=False)
-    especie             = models.CharField("Especie",max_length=30, blank=False, null=False)
     descripcion         = models.TextField("Descripcion del animal",max_length=350,blank=True,null=True)
     fecha_nacimiento    = models.DateField("Fecha nacimiento", blank=False, null=False)
     sexo                = models.CharField("Sexo", max_length=10, blank=False, null=False, choices=SEXO)
@@ -110,3 +109,51 @@ class AnimalTratamiento(models.Model):
         verbose_name = "Animal tratamiento"
         verbose_name_plural = "Animales tratados"
 
+########## MODELO PUBLICACIONES ##########
+
+class Publicacion(models.Model):
+    id                = models.AutoField(primary_key=True)
+    usuario           = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    animal            = models.ForeignKey(Animal, on_delete=models.CASCADE)
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    descripcion       = models.TextField(max_length=400,blank=True)
+    activo            = models.BooleanField("Activo",blank=False,null=False,default=True)
+    class Meta:
+        db_table = 'PUBLICACION'
+        verbose_name = "Publicacion"
+        verbose_name_plural = "Publicaciones"
+
+class ImagenPublicacion(models.Model):
+    ruta_imagen = models.ImageField(upload_to="publicacion", null=True,blank=True)
+    publicacion = models.ForeignKey(Publicacion, on_delete=models.CASCADE)
+    class Meta:
+        db_table = 'IMAGEN_PUBLICACION'
+        verbose_name = "Imagen Publicacion"
+        verbose_name_plural = "Imagenes Publicaciones"
+
+######SOLICITUDES
+
+class EstadosSolicitud(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre_estado = models.CharField(max_length = 15, blank=False, null=False)
+    descripcion = models.CharField(max_length = 200, blank=False, null=False)
+
+    class Meta:
+        db_table = 'ESTADO_SOLICITUD'
+        verbose_name = "Estado solicitud"
+        verbose_name_plural = "Estados de solicitudes"
+    
+    def __str__(self):
+        return self.nombre_estado
+
+class Solicitud(models.Model):
+    id = models.AutoField(primary_key=True)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
+    fecha_solicitud = models.DateTimeField("Fecha Solicitud",auto_now_add=True)
+    estado_solicitud = models.ForeignKey(EstadosSolicitud, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table = 'SOLICITUD'
+        verbose_name = "Solicitud Animal"
+        verbose_name_plural = "Solicitudes Animales"
