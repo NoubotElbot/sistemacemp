@@ -1,0 +1,75 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block title %}Animales{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if solicitados %}
+    <div class="table-responsive" style="margin-top: 2rem;">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            </thead>
+            <tbody>
+                {% if animales %}
+                {% for animal in animales %}
+                {% if animal.id_adoptante is None  %}
+                <tr>
+                    <td class="table-info">
+                        <div class="contenedor_img">
+                            {% if animal.imagen %}
+                            <img src="{{animal.imagen.url}}" class="imagen-tb" loading="lazy">
+                            {% else %}
+                            <img src="{% static 'sin_foto.jpg' %}" class="imagen-tb" loading="lazy">
+                            {% endif %}
+                        </div>
+                    </td>
+                    <th class="table-info">{{animal.id}} {{animal.nombre}}</th>
+                <tr>
+                    <thead class="thead-dark">
+                        <th>Solicitante</th>
+                        <th>Fecha de solicitud </th>
+                        <th>Contacto</th>
+                        <th>Estado solicitud</th>
+                    </thead>
+                </tr>
+                {% for solicitado in solicitados %}
+                {% if animal.id|striptags == solicitado.animal.id|striptags %}
+                <tr>
+                    <td visibility: hidden></td>
+                    <td visibility: hidden></td>
+                    <td class="table-light">{{solicitado.usuario.nombres}}</td>
+                    <td class="table-light">{{solicitado.fecha_solicitud|date:"d/m/Y"}}</td>
+                    <td class="table-light">{{solicitado.usuario.email}}</td>
+                    <td class="table-light">{{solicitado.estado_solicitud}}</td>
+                    <td>{{solicitado.id}}</td>
+                    <td>
+                        <form method="POST" action="{% url 'animal:aceptar-solicitud' solicitado.id %}">{% csrf_token %}
+                            <button type="submit" class="btn btn-success">Aceptar</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="POST" action="{% url 'animal:rechazar-solicitud' solicitado.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Rechazar</button>
+                        </form>
+                    </td>
+                </tr>
+
+                {% endif %}
+
+                {% endfor %}
+                </tr>
+                {% endif %}
+                {% endfor %}
+
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center">
+        <h1>No hay Animales solicitados :(</h1>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

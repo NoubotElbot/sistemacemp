@@ -16,5 +16,9 @@ urlpatterns = [
     path('listar_tratados/',ListarAnimalesTratados.as_view(),name='listar_tratados'),
     path('crear_tratado/',CrearAnimalTratado.as_view(),name='crear_tratado'),
     path('editar_tratado/<int:pk>',ActualizarAnimalTratado.as_view(),name='editar_tratado'),
+    path('add-entrada/<int:pk>',AgregarSolicitud.as_view(), name='add-solicitud'),
+    path('aceptar-entrada/<int:pk>',AceptarSolicitud.as_view(), name='aceptar-solicitud'),
+    path('rechazar-entrada/<int:pk>',RechazarSolicitud.as_view(), name='rechazar-solicitud'),
+    path('listar_solicitado/',ListarSolicitud.as_view(),name='listar_solicitados'),
     path('<int:id>/',perfil, name='perfil')
 ]

@@ -29,6 +29,15 @@
         </div>
         <div class="col">Fotos</div>
         <div class="col">Opciones</div>
+        {% if user.is_authenticated %}
+          {% if user.username|striptags != animal.id_adoptante|striptags %}
+          <div>
+            <form method="POST" action="{% url 'animal:add-solicitud' animal.id %}">{% csrf_token %}
+              <button type="submit" class="btn btn-success">Solicicitar Adopción</button>
+            </form>
+          </div>
+          {% endif %}
+        {% endif %}
       </div>
       <div class="col collapse" id="collapseExample" style="text-align: justify; margin-top: 10px;">
         <table class="table">
@@ -117,7 +126,6 @@
       </div>
     </div>
   -->
-
   {% if user.is_authenticated %}
   {% if user.username|striptags == animal.id_adoptante|striptags  %}
   <div class="col-lg-6">

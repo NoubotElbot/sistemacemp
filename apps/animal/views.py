@@ -5,7 +5,7 @@ from django.views.generic import View,ListView,UpdateView,CreateView,DeleteView,
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from apps.animal.mixins import LoginYSuperUsuarioMixin
+from .mixins import LoginYSuperUsuarioMixin, ValidarSolicitudMixin
 # Create your views here.
  
 # class ListarAnimales(ListView):
@@ -108,3 +108,59 @@ class EliminarAnimal(LoginYSuperUsuarioMixin,DeleteView):
 def perfil(request,id):
     animal_perfil = get_object_or_404(Animal,id = id)
     return render(request, 'animal/perfil.html',{'animal': animal_perfil})
+
+class AgregarSolicitud(ValidarSolicitudMixin, View):
+
+    def post(self,request,*args,**kwargs):
+        usuario = self.request.user
+        login_url = reverse_lazy('usuario:login')
+        entrada = Animal.objects.get(id=self.kwargs['pk'])
+        estado= EstadosSolicitud.objects.get(id="3")
+        Solicitud.objects.create(
+            usuario=usuario,
+            animal=entrada,
+            estado_solicitud=estado
+
+        )
+        return redirect(
+                'animal:listar_solicitados',
+            )
+    
+
+class AceptarSolicitud(LoginYSuperUsuarioMixin,UpdateView ):
+    model = Solicitud
+
+    def post(self,request,pk,*args,**kwargs):
+        adop= Solicitud.objects.get(id=self.kwargs['pk'])
+        mascota= adop.animal.id
+        adoptante=adop.usuario.id
+        estado= EstadosSolicitud.objects.get(id="1")
+        Solicitud.objects.filter(id=self.kwargs['pk']).update(
+            estado_solicitud=estado
+        )
+        Animal.objects.filter(id=mascota).update(
+            id_adoptante=adoptante
+        )
+        
+        return redirect(
+                'animal:listar_solicitados',
+            )
+    
+
+class RechazarSolicitud(LoginYSuperUsuarioMixin,UpdateView ):
+    model = Solicitud
+
+    def post(self,request,pk,*args,**kwargs):
+        object = get_object_or_404(Solicitud,id = pk)
+        estado= EstadosSolicitud.objects.get(id="2")
+        object.estado_solicitud = estado
+        object.save()
+        return redirect('animal:listar_solicitados')
+
+class ListarSolicitud(TemplateView):
+    template_name = 'solicitud/animales_solicitados.html'
+
+    def get_context_data(self, *args, **kwargs):
+        solicitudes = Solicitud.objects.all()
+        animales = Animal.objects.raw('SELECT distinct animal.* FROM animal inner join solicitud on animal.id = solicitud.animal_id;')
+        return {'solicitados': solicitudes, 'animales': animales}

@@ -47,3 +47,25 @@ class especiesAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     resources_class = especieResources
 
 admin.site.register(Especie,especiesAdmin)
+
+class solicitudResources(resources.ModelResource):
+    class Meta:
+        model = Solicitud
+
+class solicitudesAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    search_fields = ['nombre_solicitud']
+    list_display = ('id','usuario','animal','fecha_solicitud','estado_solicitud')
+    resources_class = solicitudResources
+
+admin.site.register(Solicitud,solicitudesAdmin)
+
+class estadossolicitudResource(resources.ModelResource):
+    class Meta:
+        model = EstadosSolicitud
+
+class estadossolicitudAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    search_fields = ['nombre_estadossolicitud']
+    list_display = ('id','nombre_estado','descripcion')
+    resources_class = estadossolicitudResource
+
+admin.site.register(EstadosSolicitud,estadossolicitudAdmin)
