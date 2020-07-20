@@ -88,7 +88,7 @@ class Animal(models.Model):
         verbose_name_plural = "Animales"
 
     def __str__(self):
-        return str(self.id)+" - "+self.nombre
+        return str(self.id)+"# "+self.nombre
 
 ########## MODELO ANIMALES TRATADOS ##########
 class AnimalTratamiento(models.Model):

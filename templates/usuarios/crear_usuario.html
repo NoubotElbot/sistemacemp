@@ -1,0 +1,45 @@
+{% extends "master.html"%}
+{% block title %}CEMP | Crear Usuario{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card" style="margin-top: 1rem;">
+        <div class="card-header"><strong class="card-title">Crear Usuario</strong></div>
+
+        <div class="card-formulario">
+            <form method="POST" enctype="multipart/form-data" class="form-horizontal">
+                {% csrf_token %} 
+                <div>{{form.errors}}</div>
+                <div class="row form-group">
+                    <div class="col col-md-3">{{form.username.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.username}}</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">{{form.email.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.email}}</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">{{form.nombres.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.nombres}}</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">{{form.apellidos.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.apellidos}}</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">{{form.password1.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.password1}}</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">{{form.password2.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.password2}}</div>
+                </div>
+                <div class="mt-2">
+                    <a href="{% url 'animal:listar_tratados' %}" class="btn btn-danger">Cancelar</a>
+                    <button class="btn btn-primary" type="submit">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

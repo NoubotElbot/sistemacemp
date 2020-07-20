@@ -27,7 +27,7 @@ nav{
     content: "Elegir";
 }
 
-.card{
+.card-lista-animal{
     width: 20rem; 
     margin-left: auto; 
     margin-right: auto;
@@ -72,21 +72,29 @@ nav{
     height: 50px;
     object-fit: cover;
     border-radius: 50%;
-    -webkit-transform: scale(1,1);
+    /* -webkit-transform: scale(1,1);
     -webkit-transition-timing-function: ease-out;
     -webkit-transition-duration: 250ms;
     -moz-transform: scale(1,1);
     -moz-transition-timing-function: ease-out;
-    -moz-transition-duration: 250ms;
+    -moz-transition-duration: 250ms; */
+    transition: width 1s, height 1s, transform 1s;
+        -moz-transition: width 1s, height 1s, -moz-transform 1s;
+        -webkit-transition: width 1s, height 1s, -webkit-transform 1s;
+        -o-transition: width 1s, height 1s,-o-transform 1s;
 }
 
 .imagen-tb:hover{
-    -webkit-transform: scale(4,4);
+    /* -webkit-transform: scale(3,3);
     -webkit-transition-timing-function: ease-out;
     -webkit-transition-duration: 100ms;
-    -moz-transform: scale(4,4);
+    -moz-transform: scale(3,3);
     -moz-transition-timing-function: ease-out;
-    -moz-transition-duration: 100ms;
+    -moz-transition-duration: 100ms; */
+    transform : scale(2.5);
+        -moz-transform : scale(2.5);      /* Firefox */
+        -webkit-transform : scale(2.5);   /* Chrome - Safari */
+        -o-transform : scale(2.5);
 }
 
 .imagen-an{

@@ -22,6 +22,7 @@ from SistemaAdopcion.views import Home
 from apps.usuario.views import Login, logoutUsuario
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('usuarios/',include(('apps.usuario.urls','usuarios'))),
     path('animal/', include(('apps.animal.urls','animal'))),
     path('',Home.as_view(),name='index'),
     path('accounts/login/',Login.as_view(), name = 'login'),

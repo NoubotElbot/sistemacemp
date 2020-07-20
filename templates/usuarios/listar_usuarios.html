@@ -1,0 +1,49 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block title %}CEMP | Listado de Usuarios{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_staff %}
+    <div class="contenedor-crear col-lg-3 col-md-4 col-sm-12">
+        <a href="{% url 'usuarios:registrar_usuario' %}" class="btn btn-lg btn-block btn-info">Crear</a>
+    </div>
+    {% endif %}
+    {% if object_list %}
+    <div class="card">
+        <div class="card-header"><strong class="card-title">Listado de Usuarios</strong></div>
+        <div class="table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in object_list %}
+                    <tr>
+                        <td>{{usuario.id}}</td>
+                        <td>{{usuario.username}}</td>
+                        <td>{{usuario.nombres}}</td>
+                        <td>{{usuario.apellidos}}</td>
+                        <td>
+                            <a href="#" class="btn btn-secondary">Editar</a>
+                            <a href="#" class="btn btn-danger">Elimnar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% else %}
+    <h1>No existen Usuarios registrados</h1>
+    {% endif %}
+</div>
+{% endblock %}
+

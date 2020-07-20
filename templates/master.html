@@ -36,7 +36,7 @@
         <li class="nav-item active dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            Animales
+            Ver
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{% url 'animal:listar_animal' %}">Ver nuestros amigos</a>
@@ -45,8 +45,11 @@
             {% if user.is_staff %}
                             
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'animal:listar_tratados' %}">Ver animales tratados</a>
-            <a class="dropdown-item" href="{% url 'animal:listar_tratamiento' %}">Ver tratamientos</a>
+            <a class="dropdown-item" href="{% url 'animal:listar_tratados' %}">Ver Animales Tratados</a>
+            <a class="dropdown-item" href="{% url 'animal:listar_tratamiento' %}">Ver Tratamientos</a>
+            <a class="dropdown-item" href="{% url 'animal:listar_solicitados' %}">Ver Solicitudes</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'usuarios:listar_usuarios' %}">Ver Listado de Usuarios</a>
             {% endif %}
 
             {% endif %}
@@ -85,7 +88,7 @@
   </footer>
   {% endblock %}
   {% block scripts %}
-  {% endblock %}
+  {% endblock scripts%}
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script>

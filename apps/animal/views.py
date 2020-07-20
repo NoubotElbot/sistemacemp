@@ -32,7 +32,7 @@ def listarMisMascotas(request,id):
 
 class ListarTratamientos(LoginYSuperUsuarioMixin,ListView):
     model = Tratamiento
-    template_name = 'tratamiento/tratamiento.html'
+    template_name = 'tratamiento/listar_tratamientos.html'
     context_object_name = 'tratamientos'
     queryset = Tratamiento.objects.filter(activo=True)
 

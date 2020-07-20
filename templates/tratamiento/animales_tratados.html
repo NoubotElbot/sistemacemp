@@ -14,8 +14,9 @@
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
+                    <th>ID</th>
+                    <th>Animal</th>
                     <th></th>
-                    <th>ID y nombre</th>
                     <th>Tratamiento</th>
                     <th>Fecha</th>
                     <th>Comentario</th>
@@ -26,9 +27,10 @@
             <tbody>
                 {% for tratado in tratados %}
                 <tr>
-                    <td><div class="contenedor_img"><img src="{{tratado.animal.imagen.url}}" class="imagen-tb" loading="lazy"></div></td>
+                    <td>{{tratado.id}}</td>
                     <td>{{tratado.animal}}</td>
-                    <td>{{tratado.tratamiento}}</td>
+                    <td><div class="contenedor_img"><img src="{{tratado.animal.imagen.url}}" class="imagen-tb" loading="lazy"></div></td>
+                    <td><button tabindex="0" class="btn btn-outline-dark" role="button" data-placement="right" data-toggle="popover" data-trigger="focus" title="{{tratado.tratamiento}}" data-content="{{tratado.tratamiento.descripcion}}">{{tratado.tratamiento}}</button></td>
                     <td>{{tratado.fecha_tratamiento|date:"d/m/Y"}}</td>
                     <td>{{tratado.comentario}}</td>
                     <td>{{tratado.estado}}</td>
@@ -45,3 +47,10 @@
     {% endif %}
 </div>
 {% endblock %}
+{% block scripts %}
+<script text="text/javascrips">
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
+{% endblock scripts %}
