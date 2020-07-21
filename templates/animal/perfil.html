@@ -20,6 +20,13 @@
     <br>
     <div class="coltext-center menuperfil">
       <h1>{{animal.nombre}}</h1>
+      {% if user.username|striptags != animal.id_adoptante|striptags %}
+      <div style="margin-right: auto;">
+        <form method="POST" action="{% url 'animal:add-solicitud' animal.id %}">{% csrf_token %}
+          <button type="submit" class="btn btn-success">Solicicitar Adopción</button>
+        </form>
+      </div>
+      {% endif %}
       <div class="row">
         <div class="col">
           <a class="btn" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
@@ -29,15 +36,7 @@
         </div>
         <div class="col">Fotos</div>
         <div class="col">Opciones</div>
-        {% if user.is_authenticated %}
-          {% if user.username|striptags != animal.id_adoptante|striptags %}
-          <div>
-            <form method="POST" action="{% url 'animal:add-solicitud' animal.id %}">{% csrf_token %}
-              <button type="submit" class="btn btn-success">Solicicitar Adopción</button>
-            </form>
-          </div>
-          {% endif %}
-        {% endif %}
+
       </div>
       <div class="col collapse" id="collapseExample" style="text-align: justify; margin-top: 10px;">
         <table class="table">

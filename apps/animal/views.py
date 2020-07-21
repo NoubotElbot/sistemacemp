@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .form import *
-from .models import Animal, Tratamiento
+from .form import AnimalForm, TratamientoForm, TratadosForm
+from .models import Animal, Tratamiento, AnimalTratamiento, Solicitud, EstadosSolicitud
 from django.views.generic import View,ListView,UpdateView,CreateView,DeleteView,TemplateView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
@@ -58,10 +58,11 @@ class EliminarTratamiento(LoginYSuperUsuarioMixin,DeleteView):
         return redirect('animal:listar_tratamiento')
 
 class ListarAnimalesTratados(LoginYSuperUsuarioMixin,ListView):
-    model = AnimalTratamiento
     template_name = 'tratamiento/animales_tratados.html'
-    context_object_name = 'tratados'
-    queryset = AnimalTratamiento.objects.all()
+    def get(self,request,*args,**kwargs):
+        tratados = AnimalTratamiento.objects.all()
+        animales = Animal.objects.filter(animaltratamiento__isnull=False).distinct()
+        return render(request,self.template_name,{'animales':animales,'tratados':tratados})
 
 class CrearAnimalTratado(LoginYSuperUsuarioMixin,CreateView):
     model = AnimalTratamiento
@@ -120,7 +121,6 @@ class AgregarSolicitud(ValidarSolicitudMixin, View):
             usuario=usuario,
             animal=entrada,
             estado_solicitud=estado
-
         )
         return redirect(
                 'animal:listar_solicitados',
@@ -157,10 +157,11 @@ class RechazarSolicitud(LoginYSuperUsuarioMixin,UpdateView ):
         object.save()
         return redirect('animal:listar_solicitados')
 
-class ListarSolicitud(TemplateView):
+class ListarSolicitud(LoginYSuperUsuarioMixin,ListView):
     template_name = 'solicitud/animales_solicitados.html'
 
-    def get_context_data(self, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         solicitudes = Solicitud.objects.all()
-        animales = Animal.objects.raw('SELECT distinct animal.* FROM animal inner join solicitud on animal.id = solicitud.animal_id;')
-        return {'solicitados': solicitudes, 'animales': animales}
+        # animales = Animal.objects.raw('SELECT distinct animal.* FROM animal inner join solicitud on animal.id = solicitud.animal_id;')
+        animales = Animal.objects.filter(solicitud__isnull = False).distinct()
+        return render(request,self.template_name,{'solicitados': solicitudes, 'animales': animales})

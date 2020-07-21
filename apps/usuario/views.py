@@ -7,6 +7,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView,ListView,UpdateView,DeleteView
+from .mixins import LoginYSuperUsuarioMixin
 from .models import Usuario
 from .form import FormularioLogin, FormularioUsuario
 # Create your views here.
@@ -31,13 +32,13 @@ def logoutUsuario(request):
     logout(request)
     return HttpResponseRedirect('/accounts/login')
 
-class ListadoUsuario(ListView):
+class ListadoUsuario(LoginYSuperUsuarioMixin,ListView):
     model = Usuario
     template_name = 'usuarios/listar_usuarios.html'
     def get_queryset(self):
         return self.model.object.filter(is_active=True)
 
-class RegistrarUsuario(CreateView):
+class RegistrarUsuario(LoginYSuperUsuarioMixin,CreateView):
     model = Usuario
     form_class = FormularioUsuario
     template_name = 'usuarios/crear_usuario.html'
