@@ -1,0 +1,66 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block title %}CEMP | Mis solicitudes{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_staff %}
+    <div class="contenedor-crear col-lg-3 col-md-4 col-sm-12">
+        <a href="{% url 'animal:listar_animal' %}" class="btn btn-lg btn-block btn-info">Ver nuestros amigos</a>
+    </div>
+    {% endif %}
+    {% if solicitados %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Hey!</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div> 
+    {% endfor %}       
+    {% endif %}
+    <div class="card">
+        <div class="card-header"><strong class="card-title">Mis solicitudes</strong></div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-info">
+                    <tr>
+                        <th>ID</th>
+                        <th colspan="2">Animal</th>
+                        <th>Fecha de solicitud</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for solicitud in solicitados %}
+                    <tr>
+                        <td>{{solicitud.id}}</td>
+                        <td>{{solicitud.animal}}</td>
+                        <td>{% if solicitud.animal.imagen %}
+                            <div class="contenedor_img">
+                                <img src="{{solicitud.animal.imagen.url}}" class="imagen-tb" loading="lazy"
+                                    style="width: 50px;height: 50px;">
+                            </div>
+
+                            {% else %}
+                            <div class="contenedor_img">
+                                <img src="{% static 'sin_foto.jpg' %}" class="imagen-tb" loading="lazy"
+                                    style="width: 50px;height: 50px;">
+                            </div>
+
+                            {% endif %}</td>
+                        <td>{{solicitud.fecha_solicitud|date:"d/m/Y"}}</td>
+                        <td>{{solicitud.estado_solicitud}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% else %}
+    <h1>No existen Usuarios registrados</h1>
+    {% endif %}
+</div>
+{% endblock %}

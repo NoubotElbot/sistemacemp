@@ -22,8 +22,9 @@
       <h1>{{animal.nombre}}</h1>
       {% if user.username|striptags != animal.id_adoptante|striptags %}
       <div style="margin-right: auto;">
+        
         <form method="POST" action="{% url 'animal:add-solicitud' animal.id %}">{% csrf_token %}
-          <button type="submit" class="btn btn-success">Solicicitar Adopción</button>
+          <button type="submit" class="btn btn-success">Solicitar Adopción</button>
         </form>
       </div>
       {% endif %}

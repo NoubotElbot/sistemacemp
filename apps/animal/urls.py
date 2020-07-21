@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .views import *
 
 urlpatterns = [
-    path('listar/',listarAnimales, name='listar_animal'),
-    path('mis_mascotas/<int:id>',listarMisMascotas, name='listar_mascotas'),
+    path('listar/',ListarAnimales.as_view(), name='listar_animal'),
+    path('mis_mascotas/',ListarMisMascotas.as_view(), name='listar_mascotas'),
     path('crear/',login_required(CrearAnimal.as_view()), name='crear_animal'),
     path('editar_animal/<int:pk>',login_required(ActualizarAnimal.as_view()),name='editar_animal'),
     path('eliminar_animal/<int:pk>',login_required(EliminarAnimal.as_view()),name='eliminar_animal'),
@@ -20,5 +20,6 @@ urlpatterns = [
     path('aceptar-entrada/<int:pk>',AceptarSolicitud.as_view(), name='aceptar-solicitud'),
     path('rechazar-entrada/<int:pk>',RechazarSolicitud.as_view(), name='rechazar-solicitud'),
     path('listar_solicitado/',ListarSolicitud.as_view(),name='listar_solicitados'),
+    path('mis_solicitados/',ListarMiSolicitud.as_view(),name='mis_solicitados'),
     path('<int:id>/',perfil, name='perfil')
 ]

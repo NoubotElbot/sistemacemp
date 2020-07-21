@@ -4,31 +4,28 @@ from .models import Animal, Tratamiento, AnimalTratamiento, Solicitud, EstadosSo
 from django.views.generic import View,ListView,UpdateView,CreateView,DeleteView,TemplateView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from .mixins import LoginYSuperUsuarioMixin, ValidarSolicitudMixin
 # Create your views here.
  
-# class ListarAnimales(ListView):
-#     model = Animal
-#     template_name = 'animal/listar_animal.html'
-#     context_object_name = 'animales'
-#     queryset = Animal.objects.filter(activo=True)
+class ListarAnimales(ListView):
+    template_name = 'animal/listar_animal.html'
+    def get(self, request, *args, **kwargs):
+        queryset = request.GET.get("buscar")
+        animales = Animal.objects.filter(activo=True)
+        if queryset:
+            animales = Animal.objects.filter(activo=True, nombre__icontains=queryset)
+        return render(request,self.template_name,{'animales':animales})
 
-
-def listarAnimales(request):
-    queryset = request.GET.get("buscar")
-    animales = Animal.objects.filter(activo=True)
-    if queryset:
-        animales = Animal.objects.filter(activo=True, nombre__icontains=queryset)
-    return render(request,'animal/listar_animal.html',{'animales':animales})
-
-
-def listarMisMascotas(request,id):
-    queryset = request.GET.get("buscar")
-    animales = Animal.objects.filter(activo=True, id_adoptante=id)
-    if queryset:
-        animales = Animal.objects.filter(activo=True, nombre__icontains=queryset, id_adoptante=id)
-    return render(request,'animal/listar_mascotas.html',{'animales':animales})
+class ListarMisMascotas(ListView):
+    template_name = 'animal/listar_mascotas.html'
+    def get(self, request, *args, **kwargs):
+        queryset = request.GET.get("buscar")
+        animales = Animal.objects.filter(activo=True, id_adoptante=request.user.id)
+        if queryset:
+            animales = Animal.objects.filter(activo=True, nombre__icontains=queryset, id_adoptante=request.user.id)
+        return render(request,self.template_name,{'animales':animales})
 
 class ListarTratamientos(LoginYSuperUsuarioMixin,ListView):
     model = Tratamiento
@@ -81,15 +78,6 @@ class CrearAnimal(LoginYSuperUsuarioMixin,CreateView):
     template_name = 'animal/crear_animal.html'
     form_class = AnimalForm
     success_url = reverse_lazy('animal:listar_animal')
-# def crearAnimal(request):
-#     if request.method == 'POST':
-#         animal_form = AnimalForm(request.POST, request.FILES)
-#         if animal_form.is_valid():
-#             animal_form.save()
-#             return redirect('animal:listar_animal')
-#     else:
-#         animal_form = AnimalForm()
-#     return render(request,'animal/crear_animal.html',{'form':animal_form})
 
 class ActualizarAnimal(LoginYSuperUsuarioMixin,UpdateView):
     model = Animal
@@ -123,7 +111,7 @@ class AgregarSolicitud(ValidarSolicitudMixin, View):
             estado_solicitud=estado
         )
         return redirect(
-                'animal:listar_solicitados',
+                'animal:mis_solicitados',
             )
     
 
@@ -165,3 +153,10 @@ class ListarSolicitud(LoginYSuperUsuarioMixin,ListView):
         # animales = Animal.objects.raw('SELECT distinct animal.* FROM animal inner join solicitud on animal.id = solicitud.animal_id;')
         animales = Animal.objects.filter(solicitud__isnull = False).distinct()
         return render(request,self.template_name,{'solicitados': solicitudes, 'animales': animales})
+
+class ListarMiSolicitud(LoginRequiredMixin,ListView):
+    template_name = 'solicitud/mis_solicitados.html'
+
+    def get(self, request, *args, **kwargs):
+        solicitudes = Solicitud.objects.filter(usuario = request.user.id)
+        return render(request,self.template_name,{'solicitados': solicitudes})

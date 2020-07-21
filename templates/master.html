@@ -65,8 +65,10 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             {% if user.is_authenticated %}
-            <a class="dropdown-item" href="{% url 'animal:listar_mascotas' user.id %}">Mis mascotas</a>
-            <a class="dropdown-item" href="#">Configuración</a>
+            <a class="dropdown-item" href="{% url 'animal:listar_mascotas' %}">Mis mascotas</a>
+            <a class="dropdown-item" href="#">Mis datos</a>
+            <a class="dropdown-item" href="{% url 'animal:mis_solicitados' %}">Mis Solicitudes</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a>
             {% else %}
             <a class="dropdown-item" href="{% url 'login'%}">Iniciar sesión</a>

@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.contrib import messages
 from .models import Solicitud,Animal
 class LoginYSuperUsuarioMixin(object):
     def dispatch(self, request, *args, **kwargs):
@@ -14,4 +15,5 @@ class ValidarSolicitudMixin(object):
             
             if not solicitud:
                 return super().dispatch(request, *args, **kwargs)
-        return redirect('index')
+        messages.error(request, 'Ya enviaste una solicitud para ese amigo.')
+        return redirect('animal:mis_solicitados')

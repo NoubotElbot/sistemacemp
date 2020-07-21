@@ -20,7 +20,7 @@
                 <img src="{% static 'sin_foto.jpg' %}" class="imagen-tb" loading="lazy">
                 {% endif %}
             </div>
-            <div class="text-center"><strong>{{animal.id}}# {{animal.nombre}}</strong></div>
+            <div class="text-center"><h3><strong>{{animal.id}}# {{animal.nombre}}</strong></h3></div>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered">
@@ -39,9 +39,9 @@
                     <tr>
                         <th scope="row">{{tratado.id}}</th>
                         <td>{{tratado.fecha_tratamiento|date:"d/m/Y"}}</td>
-                        <td><button tabindex="0" class="btn btn-outline-dark" role="button" data-placement="right"
+                        <td><a tabindex="0" class="btn "role="button" data-placement="right"
                                 data-toggle="popover" data-trigger="focus" title="{{tratado.tratamiento}}"
-                                data-content="{{tratado.tratamiento.descripcion}}">{{tratado.tratamiento}}</button></td>
+                                data-content="{{tratado.tratamiento.descripcion}}">{{tratado.tratamiento}}</a></td>
                         <td>{{tratado.comentario}}</td>
                         <td>
                             <a href="{% url 'animal:editar_tratado' tratado.id %}" class="btn btn-primary">Editar</a>
