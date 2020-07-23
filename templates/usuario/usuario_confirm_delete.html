@@ -10,8 +10,8 @@ Confimar eliminación
     <div class="text-center" style="margin:10rem;">
         <form method="POST">
             {% csrf_token %}
-            <h2><strong>¿Esta seguro que desea eliminar a {{animal}}?</strong></h2>
-            <a href="{% url 'animal:listar_animal' %}" class="btn btn-warning">Cancelar</a>
+            <h2><strong>¿Esta seguro que desea eliminar a {{usuario}}?</strong></h2>
+            <a href="{% url 'usuarios:listar_usuarios' %}" class="btn btn-warning">Cancelar</a>
             <button type="submit" class="btn btn-danger">Borrar</button>
         </form>
     </div>

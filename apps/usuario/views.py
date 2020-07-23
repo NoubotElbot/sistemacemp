@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import FormView
 from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView,ListView,UpdateView,DeleteView
 from .mixins import LoginYSuperUsuarioMixin
 from .models import Usuario
@@ -34,12 +35,27 @@ def logoutUsuario(request):
 
 class ListadoUsuario(LoginYSuperUsuarioMixin,ListView):
     model = Usuario
-    template_name = 'usuarios/listar_usuarios.html'
+    template_name = 'usuario/listar_usuarios.html'
     def get_queryset(self):
-        return self.model.object.filter(is_active=True)
+        return self.model.object.all()
 
 class RegistrarUsuario(LoginYSuperUsuarioMixin,CreateView):
     model = Usuario
     form_class = FormularioUsuario
-    template_name = 'usuarios/crear_usuario.html'
+    template_name = 'usuario/crear_usuario.html'
     success_url = reverse_lazy('usuarios:listar_usuarios')
+
+class EditarUsuario(LoginYSuperUsuarioMixin,UpdateView):
+    model = Usuario
+    template_name = 'usuario/crear_usuario.html'
+    form_class = FormularioUsuario
+    success_url = reverse_lazy('usuarios:listar_usuarios')
+
+class EliminarUsuario(LoginYSuperUsuarioMixin,DeleteView):
+    model = Usuario
+
+    def post(self,request,pk,*args,**kwargs):
+        object = get_object_or_404(Usuario,id = pk)
+        object.is_active = False
+        object.save()
+        return redirect('usuarios:listar_usuarios')
