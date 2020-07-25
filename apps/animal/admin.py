@@ -69,3 +69,23 @@ class estadossolicitudAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     resources_class = estadossolicitudResource
 
 admin.site.register(EstadosSolicitud,estadossolicitudAdmin)
+
+class publicacionesResource(resources.ModelResource):
+    class Meta:
+        model = Publicacion
+
+class publicacionAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ('id','usuario','animal','fecha_publicacion','descripcion')
+    resources_class = publicacionesResource
+
+admin.site.register(Publicacion,publicacionAdmin)
+
+class imagenResource(resources.ModelResource):
+    class Meta:
+        model = ImagenPublicacion
+
+class imagenAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ('id','ruta_imagen','publicacion')
+    resources_class = imagenResource
+
+admin.site.register(ImagenPublicacion,imagenAdmin)

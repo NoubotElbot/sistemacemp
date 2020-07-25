@@ -122,6 +122,8 @@ class Publicacion(models.Model):
         db_table = 'PUBLICACION'
         verbose_name = "Publicacion"
         verbose_name_plural = "Publicaciones"
+    def __str__(self):
+        return str(self.id)
 
 class ImagenPublicacion(models.Model):
     ruta_imagen = models.ImageField(upload_to="publicacion", null=True,blank=True)

@@ -1,7 +1,7 @@
 from PIL import Image
 from django import forms
 from django.core.files import File
-from .models import *
+from .models import Animal, AnimalTratamiento, Tratamiento, Publicacion, ImagenPublicacion
 import datetime
 
 class AnimalForm(forms.ModelForm):
@@ -138,4 +138,33 @@ class TratadosForm(forms.ModelForm):
                     'id':'estado'
                 }
             ),      
+        }
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Publicacion
+        fields = ('descripcion',)
+        widgets = {
+            'descripcion': forms.Textarea(
+                attrs={
+                    'class':'form-control',
+                    'placeholder':'Ingrese su comentario...',
+                    'id':'descripcion', 
+                    'required':True,
+                }
+            ),
+        }
+
+
+class ImageForm(forms.ModelForm):  
+    class Meta:
+        model = ImagenPublicacion
+        fields = ('ruta_imagen', )
+        widgets = {
+            'ruta_imagen': forms.FileInput(
+                attrs={
+                    'class':'custom-file-input',
+                    'id':'ruta_imagen'
+                }
+            )
         }

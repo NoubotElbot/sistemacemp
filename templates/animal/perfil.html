@@ -22,7 +22,7 @@
       <h1>{{animal.nombre}}</h1>
       {% if user.username|striptags != animal.id_adoptante|striptags %}
       <div style="margin-right: auto;">
-        
+
         <form method="POST" action="{% url 'animal:add-solicitud' animal.id %}">{% csrf_token %}
           <button type="submit" class="btn btn-success">Solicitar Adopción</button>
         </form>
@@ -94,51 +94,64 @@
     </div>
     <br>
   </div>
-
-  <!-- 
-  <div style="display: flex;">
-    <div style=" min-height: 400px;flex:1;">
-      <div class="personal_bar">
-        Contactos<br>
-        <div class="personal">
-          Estado:Adoptado
+  <div class="row mt-3">
+    {% if user.is_authenticated %}
+    {% if user.username|striptags == animal.id_adoptante|striptags  %}
+    <div class="col-lg-6 col-sm-12 mb-2">
+      <div class="card">
+        <div class="card-body input-group">
+          <form id="post_form" method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for hidden in postForm.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
+            {% for field in postForm %}
+            {{ field }} <br />
+            {% endfor %}
+            <h5>Puede subir un maximo de 3 imagenes por post</h5>
+            <div class="row row-cols-3 mt-2">
+              {{ formset.management_form }}
+              {% for form in formset %}
+              <div class="col">
+                <label id="fichero" class="btn" for="ruta_imagen">
+                  {% if form.instance.ruta_imagen %}
+                  <img id="blah" class="img-vistaprevia" src="{{ form.instance.ruta_imagen.url }}" alt="Tu imagen" />
+                  {% else %}
+                  <img id="blah" class="img-vistaprevia" src="{% static 'subir.png' %}" alt="Tu imagen" />
+                  {% endif %}
+                </label>
+                {{form.ruta_imagen}}
+              </div>
+              {% endfor %}
+            </div>
+            <button class="btn btn-primary" type="submit">Subir</button>
+          </form>
         </div>
-        <div class="personal">
-          Edad: 2 meses
-        </div>
-        <div class="personal">
-          Fecha llegada: 2 marzo 2020
-        </div>
-        <div class="personal">
-          Especie: Gato
-        </div>
-        <div class="personal">
-          Sexo: Femenino
-        </div>
-        <div class="personal">
-          Peso: 1kg
-        </div>
-        <div class="personal">
-          descripcion: Amoroso y tierno
-        </div>
-
-
       </div>
     </div>
-  -->
-  {% if user.is_authenticated %}
-  {% if user.username|striptags == animal.id_adoptante|striptags  %}
-  <div class="col-lg-6">
-    <div class="input-group mb-3">
-      <textarea class="form-control" aria-label="With textarea"></textarea>
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon1">Subir</button>
+    {% endif %}
+    {% endif %}
+    <div class="col-lg-6 col-sm-12">
+      <div class="card">
+        <div class="card-body" style="overflow-y: scroll; max-height: 50rem;">
+          {% if publicacion %}
+          {% for p in publicacion  %}
+          <div class="col">
+            {{p.fecha_publicacion|date:"j-F-Y H:i"}}
+            <div>
+              {{p.descripcion}}
+            </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
-  {% endif %}
-  {% endif %}
-
-
 </div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+
+</script>
 {% endblock %}

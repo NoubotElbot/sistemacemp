@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from .form import AnimalForm, TratamientoForm, TratadosForm
-from .models import Animal, Tratamiento, AnimalTratamiento, Solicitud, EstadosSolicitud
+from .form import AnimalForm, TratamientoForm, TratadosForm, PostForm, ImageForm
+from .models import Animal, Tratamiento, AnimalTratamiento, Solicitud, EstadosSolicitud, ImagenPublicacion, Publicacion
 from django.views.generic import View,ListView,UpdateView,CreateView,DeleteView,TemplateView
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.forms import modelformset_factory
 from .mixins import LoginYSuperUsuarioMixin, ValidarSolicitudMixin
 # Create your views here.
  
@@ -94,9 +96,35 @@ class EliminarAnimal(LoginYSuperUsuarioMixin,DeleteView):
         object.save()
         return redirect('animal:listar_animal')
 
+# def perfil(request,id):
+#     animal_perfil = get_object_or_404(Animal,id = id)
+#     return render(request, 'animal/perfil.html',{'animal': animal_perfil})
+
 def perfil(request,id):
-    animal_perfil = get_object_or_404(Animal,id = id)
-    return render(request, 'animal/perfil.html',{'animal': animal_perfil})
+        ImageFormSet = modelformset_factory(ImagenPublicacion,form=ImageForm, extra=3)
+        if request.method == 'POST':
+            postForm = PostForm(request.POST)
+            formset = ImageFormSet(request.POST, request.FILES, queryset=ImagenPublicacion.objects.none())
+            if postForm.is_valid() and formset.is_valid():
+
+                post_form = postForm.save(commit=False)
+                post_form.usuario = request.user
+                post_form.animal = Animal.objects.get(id=id)
+                post_form.save()
+                for form in formset.cleaned_data:
+                    if form:
+                        image = form['ruta_imagen']
+                        photo = ImagenPublicacion(publicacion=post_form, ruta_imagen=image)
+                        photo.save()
+                    return redirect('animal:perfil',id = id)
+            else:
+                print(postForm.errors, formset.errors)
+        else:
+            postForm = PostForm()
+            formset = ImageFormSet(queryset = ImagenPublicacion.objects.none())
+            animal_perfil = get_object_or_404(Animal,id = id)
+            publicacion = Publicacion.objects.filter(animal=id)
+        return render(request, 'animal/perfil.html', {'postForm': postForm, 'formset': formset, 'animal': animal_perfil, 'publicacion': publicacion})
 
 class AgregarSolicitud(ValidarSolicitudMixin, View):
 
@@ -159,4 +187,4 @@ class ListarMiSolicitud(LoginRequiredMixin,ListView):
 
     def get(self, request, *args, **kwargs):
         solicitudes = Solicitud.objects.filter(usuario = request.user.id)
-        return render(request,self.template_name,{'solicitados': solicitudes})
+        return render(request,self.template_name,{'solicitados': solicitudes}) 
