@@ -116,7 +116,7 @@ def perfil(request,id):
                         image = form['ruta_imagen']
                         photo = ImagenPublicacion(publicacion=post_form, ruta_imagen=image)
                         photo.save()
-                    return redirect('animal:perfil',id = id)
+                return redirect('animal:perfil',id = id)
             else:
                 print(postForm.errors, formset.errors)
         else:
@@ -124,7 +124,8 @@ def perfil(request,id):
             formset = ImageFormSet(queryset = ImagenPublicacion.objects.none())
             animal_perfil = get_object_or_404(Animal,id = id)
             publicacion = Publicacion.objects.filter(animal=id)
-        return render(request, 'animal/perfil.html', {'postForm': postForm, 'formset': formset, 'animal': animal_perfil, 'publicacion': publicacion})
+            imagen_p = ImagenPublicacion.objects.filter(publicacion__id__in=publicacion)
+        return render(request, 'animal/perfil.html', {'postForm': postForm, 'formset': formset, 'animal': animal_perfil, 'publicacion': publicacion,'imagen':imagen_p})
 
 class AgregarSolicitud(ValidarSolicitudMixin, View):
 

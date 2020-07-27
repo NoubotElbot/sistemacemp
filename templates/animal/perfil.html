@@ -67,6 +67,9 @@
                 {% elif animal.getEdad.1 > 1 %}
                 {{animal.getEdad.1}} meses
                 {% endif %}
+                {% if animal.getEdad.1 == 0 and animal.getEdad.0 == 0  %}
+                menos de 1 mes
+                {% endif %}
               </td>
             </tr>
             <tr>
@@ -94,64 +97,106 @@
     </div>
     <br>
   </div>
-  <div class="row mt-3">
+  <div class="col mt-3">
     {% if user.is_authenticated %}
     {% if user.username|striptags == animal.id_adoptante|striptags  %}
-    <div class="col-lg-6 col-sm-12 mb-2">
-      <div class="card">
-        <div class="card-body input-group">
-          <form id="post_form" method="post" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for hidden in postForm.hidden_fields %}
-            {{ hidden }}
-            {% endfor %}
-            {% for field in postForm %}
-            {{ field }} <br />
-            {% endfor %}
-            <h5>Puede subir un maximo de 3 imagenes por post</h5>
-            <div class="row row-cols-3 mt-2">
-              {{ formset.management_form }}
-              {% for form in formset %}
-              <div class="col">
-                <label id="fichero" class="btn" for="ruta_imagen">
-                  {% if form.instance.ruta_imagen %}
-                  <img id="blah" class="img-vistaprevia" src="{{ form.instance.ruta_imagen.url }}" alt="Tu imagen" />
-                  {% else %}
-                  <img id="blah" class="img-vistaprevia" src="{% static 'subir.png' %}" alt="Tu imagen" />
-                  {% endif %}
-                </label>
-                {{form.ruta_imagen}}
-              </div>
-              {% endfor %}
+
+    <div class="card mb-2">
+      <div class="card-body text-center input-group">
+        <form id="post_form" method="post" action="" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% for hidden in postForm.hidden_fields %}
+          {{ hidden }}
+          {% endfor %}
+          {% for field in postForm %}
+          {{ field }} <br />
+          {% endfor %}
+          <h5>Puede subir un maximo de 3 imagenes por post</h5>
+          <div class="row mt-2">
+            {{ formset.management_form }}
+            <div class="col">
+              <label id="fichero" class="btn" for="id_form-0-ruta_imagen">
+                <img id="blah-1" class="img-vistaprevia" src="{% static 'subir.png' %}" alt="Tu imagen" />
+              </label>
+              {{formset.0.ruta_imagen}}
             </div>
-            <button class="btn btn-primary" type="submit">Subir</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    {% endif %}
-    {% endif %}
-    <div class="col-lg-6 col-sm-12">
-      <div class="card">
-        <div class="card-body" style="overflow-y: scroll; max-height: 50rem;">
-          {% if publicacion %}
-          {% for p in publicacion  %}
-          <div class="col">
-            {{p.fecha_publicacion|date:"j-F-Y H:i"}}
-            <div>
-              {{p.descripcion}}
+            <div class="col">
+              <label id="fichero" class="btn" for="id_form-1-ruta_imagen">
+                <img id="blah-2" class="img-vistaprevia" src="{% static 'subir.png' %}" alt="Tu imagen" />
+              </label>
+              {{formset.1.ruta_imagen}}
+            </div>
+            <div class="col">
+              <label id="fichero" class="btn" for="id_form-2-ruta_imagen">
+                <img id="blah-3" class="img-vistaprevia" src="{% static 'subir.png' %}" alt="Tu imagen" />
+              </label>
+              {{formset.2.ruta_imagen}}
             </div>
           </div>
-          {% endfor %}
-          {% endif %}
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Subir</button>
+        </form>
+      </div>
+    </div>
+
+    {% endif %}
+    {% endif %}
+
+    <div class="card">
+      <div class="card-body" style="overflow-y: scroll; max-height: 40rem;">
+        {% if publicacion %}
+        {% for p in publicacion reversed %}
+        <div class="col">
+          <div><img class="mr-3" style="width: 25px; height:25px;" src="{% static 'no_perfil_foto.jpg' %}" />
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <p><a href="#">{{p.usuario}}</a> <small class="text-muted">
+                  {{p.fecha_publicacion|date:"j-F-Y H:i"}}</small></p>
+              <p>{{p.descripcion}}</p>
+            </div>
+          </div>
         </div>
+        <div class="row">
+          {% for i in imagen  %}
+          {% if i.publicacion == p%}
+          <div class="col-lg-4 col-md-6 col-sm-12 contenedor_img mb-2">
+            <img src="{{i.ruta_imagen.url}}" class="imagen-p">
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="dropdown-divider"></div>
+        {% endfor %}
+        {% endif %}
       </div>
     </div>
   </div>
 </div>
+
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">
-
+  function readImage(input, id) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $(id).attr('src', e.target.result); // Renderizamos la imagen
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $("#id_form-0-ruta_imagen").change(function () {
+    // Código a ejecutar cuando se detecta un cambio de archivO
+    readImage(this,'#blah-1');
+  });
+  $("#id_form-1-ruta_imagen").change(function () {
+    // Código a ejecutar cuando se detecta un cambio de archivO
+    readImage(this,'#blah-2');
+  });
+  $("#id_form-2-ruta_imagen").change(function () {
+    // Código a ejecutar cuando se detecta un cambio de archivO
+    readImage(this,'#blah-3');
+  });
 </script>
 {% endblock %}

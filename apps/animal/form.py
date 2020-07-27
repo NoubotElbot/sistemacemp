@@ -164,7 +164,6 @@ class ImageForm(forms.ModelForm):
             'ruta_imagen': forms.FileInput(
                 attrs={
                     'class':'custom-file-input',
-                    'id':'ruta_imagen'
                 }
             )
         }

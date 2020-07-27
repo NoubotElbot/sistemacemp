@@ -81,6 +81,16 @@ nav{
     justify-content: space-around;
     flex-wrap: wrap;
     margin: auto;
+    
+}
+
+.imagen-p{
+    width: 100%;
+    border: solid cornflowerblue;
+    border-radius: 5%;
+    background-color: cornflowerblue;
+    max-height: 300px;
+    object-fit: contain;
 }
 
 .imagen-tb{
