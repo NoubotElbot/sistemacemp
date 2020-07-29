@@ -51,7 +51,9 @@
 
                             {% endif %}</td>
                         <td>{{solicitud.fecha_solicitud|date:"d/m/Y"}}</td>
-                        <td>{{solicitud.estado_solicitud}}</td>
+                        <td><a tabindex="0" class="btn " role="button" data-placement="right" data-toggle="popover"
+                            data-trigger="focus" title="{{solicitud.estado_solicitud}}"
+                            data-content="{{solicitud.estado_solicitud.descripcion}}">{{solicitud.estado_solicitud}}</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -64,3 +66,10 @@
     {% endif %}
 </div>
 {% endblock %}
+{% block scripts %}
+<script text="text/javascrips">
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
+{% endblock scripts %}

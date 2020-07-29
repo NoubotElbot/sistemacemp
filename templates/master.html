@@ -50,10 +50,12 @@
               <a class="dropdown-item" href="{% url 'animal:listar_tratados' %}">Ver Animales Tratados</a>
               <a class="dropdown-item" href="{% url 'animal:listar_tratamiento' %}">Ver Tratamientos</a>
               <a class="dropdown-item" href="{% url 'animal:listar_solicitados' %}">Ver Solicitudes</a>
+              
+              {% if user.is_superuser %}
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'usuarios:listar_usuarios' %}">Ver Listado de Usuarios</a>
               {% endif %}
-
+              {% endif %}
               {% endif %}
             </div>
           </li>

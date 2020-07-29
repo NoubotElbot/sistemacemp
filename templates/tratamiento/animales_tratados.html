@@ -10,21 +10,20 @@
     </div>
     {% endif %}
     {% if animales %}
-    {% for animal in animales  %}
-    <dic class="card">
-        <div class="card-header">
-            <a href="{% url 'animal:perfil' animal.id %}">
-                <div class="contenedor_img">
+    <div class="card">
+        <div class="card-header"><strong class="card-title">Animales Tratados</strong></div>
+        {% for animal in animales  %}
+        <div class="col mt-2 text-center">
+            <div class="contenedor_img">
+                <a href="{% url 'animal:perfil' animal.id %}">
                     {% if animal.imagen %}
                     <img src="{{animal.imagen.url}}" class="imagen-tb" loading="lazy">
                     {% else %}
                     <img src="{% static 'sin_foto.jpg' %}" class="imagen-tb" loading="lazy">
                     {% endif %}
-                </div>
-            </a>
-            <div class="text-center">
-                <h3><strong>{{animal.id}}# {{animal.nombre}}</strong></h3>
+                </a>
             </div>
+            <h3><strong>{{animal.id}}# {{animal.nombre}}</strong></h3>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered">
@@ -56,8 +55,9 @@
                 </tbody>
             </table>
         </div>
-    </dic>
-    {% endfor %}
+
+        {% endfor %}
+    </div>
     {% else %}
     <div class="text-center">
         <h1>No hay Animales tratados :)</h1>

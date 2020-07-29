@@ -5,9 +5,12 @@
 {% block content %}
 <div class="container">
     {% if solicitados %}
-    {% for animal in animales %}
+    <br>
     <div class="card">
-        <div class="card-header">
+        <div class="card-header"><strong class="card-title">Animales Solicitados</strong></div>
+        {% for animal in animales %}
+
+        <div class="col mt-2 text-center">
             <div class="contenedor_img">
                 {% if animal.imagen %}
                 <img src="{{animal.imagen.url}}" class="imagen-tb" loading="lazy">
@@ -15,17 +18,19 @@
                 <img src="{% static 'sin_foto.jpg' %}" class="imagen-tb" loading="lazy">
                 {% endif %}
             </div>
-            <div class="text-center"><h3><strong>{{animal.id}}# {{animal.nombre}}</strong></h3></div>
+            <div>
+                <h3><strong>{{animal.id}}# {{animal.nombre}}</strong></h3>
+            </div>
         </div>
         <div class="table">
             <table class="table table-bordered">
-                <thead class="table-info"> 
+                <thead class="table-info">
                     <tr>
                         <th>ID</th>
                         <th>Solicitante</th>
                         <th>Fecha de solicitud </th>
                         <th>Contacto</th>
-                        <th>Estado solicitud</th>               
+                        <th>Estado solicitud</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -38,7 +43,11 @@
                         <td>{{solicitado.usuario.nombres}} {{solicitado.usuario.apellidos}}</td>
                         <td>{{solicitado.fecha_solicitud|date:"d/m/Y"}}</td>
                         <td>{{solicitado.usuario.email}}</td>
-                        <td>{{solicitado.estado_solicitud}}</td>                    
+                        <td><a tabindex="0" class="btn " role="button" data-placement="right" data-toggle="popover"
+                            data-trigger="focus" title="{{solicitado.estado_solicitud}}"
+                            data-content="{{solicitado.estado_solicitud.descripcion}}">{{solicitado.estado_solicitud}}</a>
+                        </td>                       
+                        {% if solicitado.estado_solicitud|striptags|lower == "Pendiente"|lower %}
                         <td>
                             <form method="POST" action="{% url 'animal:aceptar-solicitud' solicitado.id %}">
                                 {% csrf_token %}
@@ -51,14 +60,19 @@
                                 <button type="submit" class="btn btn-danger">Rechazar</button>
                             </form>
                         </td>
+                        {% else %}
+                        <td><button type="submit" class="btn btn-success" disabled>Aceptar</button></td>
+                        <td><button type="submit" class="btn btn-danger" disabled>Rechazar</button></td>
+                        {% endif %}  
                     </tr>
                     {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+
+        {% endfor %}
     </div>
-    {% endfor %}
     {% else %}
     <div class="text-center">
         <h1>No hay Animales solicitados :(</h1>
@@ -66,3 +80,10 @@
     {% endif %}
 </div>
 {% endblock %}
+{% block scripts %}
+<script text="text/javascrips">
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
+{% endblock scripts %}

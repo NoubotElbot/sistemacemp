@@ -37,18 +37,12 @@ class ListadoUsuario(LoginYSuperUsuarioMixin,ListView):
     model = Usuario
     template_name = 'usuario/listar_usuarios.html'
     def get_queryset(self):
-        return self.model.object.all()
+        return self.model.objects.all()
 
 class RegistrarUsuario(LoginYSuperUsuarioMixin,CreateView):
     model = Usuario
     form_class = FormularioUsuario
     template_name = 'usuario/crear_usuario.html'
-    success_url = reverse_lazy('usuarios:listar_usuarios')
-
-class EditarUsuario(LoginYSuperUsuarioMixin,UpdateView):
-    model = Usuario
-    template_name = 'usuario/crear_usuario.html'
-    form_class = FormularioUsuario
     success_url = reverse_lazy('usuarios:listar_usuarios')
 
 class EliminarUsuario(LoginYSuperUsuarioMixin,DeleteView):

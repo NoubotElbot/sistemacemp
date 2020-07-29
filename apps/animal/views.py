@@ -96,36 +96,32 @@ class EliminarAnimal(LoginYSuperUsuarioMixin,DeleteView):
         object.save()
         return redirect('animal:listar_animal')
 
-# def perfil(request,id):
-#     animal_perfil = get_object_or_404(Animal,id = id)
-#     return render(request, 'animal/perfil.html',{'animal': animal_perfil})
-
-def perfil(request,id):
-        ImageFormSet = modelformset_factory(ImagenPublicacion,form=ImageForm, extra=3)
-        if request.method == 'POST':
-            postForm = PostForm(request.POST)
-            formset = ImageFormSet(request.POST, request.FILES, queryset=ImagenPublicacion.objects.none())
-            if postForm.is_valid() and formset.is_valid():
-
-                post_form = postForm.save(commit=False)
-                post_form.usuario = request.user
-                post_form.animal = Animal.objects.get(id=id)
-                post_form.save()
-                for form in formset.cleaned_data:
-                    if form:
-                        image = form['ruta_imagen']
-                        photo = ImagenPublicacion(publicacion=post_form, ruta_imagen=image)
-                        photo.save()
-                return redirect('animal:perfil',id = id)
-            else:
-                print(postForm.errors, formset.errors)
+class Perfil(View):
+    ImageFormSet = modelformset_factory(ImagenPublicacion,form=ImageForm, extra=3)
+    template_name = 'animal/perfil.html'
+    def post(self,request,id,*args,**kwargs):
+        postForm = PostForm(request.POST)
+        formset = self.ImageFormSet(request.POST, request.FILES, queryset=ImagenPublicacion.objects.none())
+        if postForm.is_valid() and formset.is_valid():
+            post_form = postForm.save(commit=False)
+            post_form.usuario = request.user
+            post_form.animal = Animal.objects.get(id=id)
+            post_form.save()
+            for form in formset.cleaned_data:
+                if form:
+                    image = form['ruta_imagen']
+                    photo = ImagenPublicacion(publicacion=post_form, ruta_imagen=image)
+                    photo.save()
+            return redirect('animal:perfil',id = id)
         else:
-            postForm = PostForm()
-            formset = ImageFormSet(queryset = ImagenPublicacion.objects.none())
-            animal_perfil = get_object_or_404(Animal,id = id)
-            publicacion = Publicacion.objects.filter(animal=id)
-            imagen_p = ImagenPublicacion.objects.filter(publicacion__id__in=publicacion)
-        return render(request, 'animal/perfil.html', {'postForm': postForm, 'formset': formset, 'animal': animal_perfil, 'publicacion': publicacion,'imagen':imagen_p})
+            print(postForm.errors, formset.errors)
+    def get(self,request,id,*args,**kwargs):
+        postForm = PostForm()
+        formset = self.ImageFormSet(queryset = ImagenPublicacion.objects.none())
+        animal_perfil = get_object_or_404(Animal,id = id)
+        publicacion = Publicacion.objects.filter(animal=id).order_by('-fecha_publicacion')
+        imagen_p = ImagenPublicacion.objects.filter(publicacion__id__in=publicacion).order_by('-id')
+        return render(request, self.template_name, {'postForm': postForm, 'formset': formset, 'animal': animal_perfil, 'publicacion': publicacion,'imagen':imagen_p})
 
 class AgregarSolicitud(ValidarSolicitudMixin, View):
 
@@ -151,12 +147,17 @@ class AceptarSolicitud(LoginYSuperUsuarioMixin,UpdateView ):
         adop= Solicitud.objects.get(id=self.kwargs['pk'])
         mascota= adop.animal.id
         adoptante=adop.usuario.id
-        estado= EstadosSolicitud.objects.get(id="1")
+        estado_aceptado = EstadosSolicitud.objects.get(id="1")
+        estado_pendiente = EstadosSolicitud.objects.get(id="3")
+        estado_cancelada = EstadosSolicitud.objects.get(id="4")
         Solicitud.objects.filter(id=self.kwargs['pk']).update(
-            estado_solicitud=estado
+            estado_solicitud=estado_aceptado
         )
         Animal.objects.filter(id=mascota).update(
             id_adoptante=adoptante
+        )
+        Solicitud.objects.filter(animal=mascota,estado_solicitud=estado_pendiente).update(
+            estado_solicitud=estado_cancelada   
         )
         
         return redirect(

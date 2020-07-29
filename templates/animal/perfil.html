@@ -3,18 +3,19 @@
 {% block title %}Perfil{% endblock %}
 
 {% block content %}
+{% include 'modal.html' %}
 <div class="container">
   <div class="header">
     <div class="portada-contenedor">
       <img
         src="https://www.ecestaticos.com/imagestatic/clipping/0a6/095/0a6095e5561df9e8e55aa77eccc57cb2/por-que-los-perros-son-mas-inteligentes-que-los-gatos-segun-la-ciencia.jpg?mtime=1579565836"
-        class="img-portada">
+        class="img-portada" loading="lazy">
     </div>
     <div class="perfilfoto-contenedor">
       {% if animal.imagen %}
-      <img src="{{ animal.imagen.url }}" class="perfilfoto">
+      <img src="{{ animal.imagen.url }}" class="perfilfoto" loading="lazy">
       {% else %}
-      <img src="{% static 'sin_foto.jpg' %}" class="perfilfoto">
+      <img src="{% static 'sin_foto.jpg' %}" class="perfilfoto" loading="lazy">
       {% endif %}
     </div>
     <br>
@@ -22,85 +23,95 @@
       <h1>{{animal.nombre}}</h1>
       {% if user.username|striptags != animal.id_adoptante|striptags %}
       <div style="margin-right: auto;">
-
         <form method="POST" action="{% url 'animal:add-solicitud' animal.id %}">{% csrf_token %}
           <button type="submit" class="btn btn-success">Solicitar Adopción</button>
         </form>
       </div>
       {% endif %}
-      <div class="row">
-        <div class="col">
-          <a class="btn" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-            aria-controls="collapseExample">
-            Info
-          </a>
+      <div class="accordion" id="accordionExample">
+        <div class="row">
+          <div class="col">
+            <a class="btn" data-toggle="collapse" href="#collapseInfo" role="button" aria-expanded="false"
+              aria-controls="collapseExample">
+              Info
+            </a>
+          </div>
+          <div class="col">
+            <a class="btn" data-toggle="collapse" href="#collapseFotos" role="button" aria-expanded="false"
+              aria-controls="collapseExample">
+              Fotos
+            </a></div>
+          <div class="col">Opciones</div>
         </div>
-        <div class="col">Fotos</div>
-        <div class="col">Opciones</div>
-
-      </div>
-      <div class="col collapse" id="collapseExample" style="text-align: justify; margin-top: 10px;">
-        <table class="table">
-          <tbody>
-            <tr>
-              <td><strong>Especie:</strong></td>
-              <td>{{animal.especie}}</td>
-            </tr>
-            <tr>
-              <td><strong>Sexo:</strong></td>
-              <td>{{animal.sexo}}</td>
-            </tr>
-            <tr>
-              <td><strong>Tamaño:</strong></td>
-              <td>{{animal.tamaño}}</td>
-            </tr>
-            <tr>
-              <td><strong>Edad:</strong></td>
-              <td>
-                {% if animal.getEdad.0 == 1 %}
-                {{animal.getEdad.0}} año
-                {% elif animal.getEdad.0 > 1 %}
-                {{animal.getEdad.0}} años
-                {% endif %}
-                {% if animal.getEdad.1 == 1 %}
-                {{animal.getEdad.1}} mes
-                {% elif animal.getEdad.1 > 1 %}
-                {{animal.getEdad.1}} meses
-                {% endif %}
-                {% if animal.getEdad.1 == 0 and animal.getEdad.0 == 0  %}
-                menos de 1 mes
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Peso:</strong></td>
-              <td>{{animal.peso}} Kg</td>
-            </tr>
-            {% if animal.esterilizado %}
-            <tr>
-              <td><strong>Esterilizado:</strong></td>
-              <td>Sí</td>
-            </tr>
-            {% else %}
-            <tr>
-              <td><strong>Esterilizado:</strong></td>
-              <td>No</td>
-            </tr>
-            {% endif %}
-            <tr>
-              <td><strong>Descripcion:</strong></td>
-              <td>{{animal.descripcion}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="col collapse" id="collapseInfo" data-parent="#accordionExample" style="text-align: justify; margin-top: 10px;">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td><strong>Especie:</strong></td>
+                <td>{{animal.especie}}</td>
+              </tr>
+              <tr>
+                <td><strong>Sexo:</strong></td>
+                <td>{{animal.sexo}}</td>
+              </tr>
+              <tr>
+                <td><strong>Tamaño:</strong></td>
+                <td>{{animal.tamaño}}</td>
+              </tr>
+              <tr>
+                <td><strong>Edad:</strong></td>
+                <td>
+                  {% if animal.getEdad.0 == 1 %}
+                  {{animal.getEdad.0}} año
+                  {% elif animal.getEdad.0 > 1 %}
+                  {{animal.getEdad.0}} años
+                  {% endif %}
+                  {% if animal.getEdad.1 == 1 %}
+                  {{animal.getEdad.1}} mes
+                  {% elif animal.getEdad.1 > 1 %}
+                  {{animal.getEdad.1}} meses
+                  {% endif %}
+                  {% if animal.getEdad.1 == 0 and animal.getEdad.0 == 0  %}
+                  menos de 1 mes
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Peso:</strong></td>
+                <td>{{animal.peso}} Kg</td>
+              </tr>
+              {% if animal.esterilizado %}
+              <tr>
+                <td><strong>Esterilizado:</strong></td>
+                <td>Sí</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td><strong>Esterilizado:</strong></td>
+                <td>No</td>
+              </tr>
+              {% endif %}
+              <tr>
+                <td><strong>Descripcion:</strong></td>
+                <td>{{animal.descripcion}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row collapse collapse-fotos" data-parent="#accordionExample" id="collapseFotos">
+          {% for i in imagen %}
+          <div class="col-lg-3 col-md-6 col-sm-12 contenedor_img">
+            <img src="{{i.ruta_imagen.url}}" class="imagen-p" loading="lazy">
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
     <br>
   </div>
-  <div class="col mt-3">
+  <div class="main mt-3">
     {% if user.is_authenticated %}
-    {% if user.username|striptags == animal.id_adoptante|striptags  %}
-
+    {% if user.username|striptags == animal.id_adoptante|striptags or user.is_staff %}
     <div class="card mb-2">
       <div class="card-body text-center input-group">
         <form id="post_form" method="post" action="" enctype="multipart/form-data">
@@ -114,21 +125,21 @@
           <h5>Puede subir un maximo de 3 imagenes por post</h5>
           <div class="row mt-2">
             {{ formset.management_form }}
-            <div class="col">
+            <div class="col-lg-4 col-sm-12">
               <label id="fichero" class="btn" for="id_form-0-ruta_imagen">
-                <img id="blah-1" class="img-vistaprevia" src="{% static 'subir.png' %}" alt="Tu imagen" />
+                <img id="blah-1" class="img-vistaprevia" src="{% static 'subir.png' %}" loading="lazy" />
               </label>
               {{formset.0.ruta_imagen}}
             </div>
-            <div class="col">
+            <div class="col-lg-4 col-sm-12">
               <label id="fichero" class="btn" for="id_form-1-ruta_imagen">
-                <img id="blah-2" class="img-vistaprevia" src="{% static 'subir.png' %}" alt="Tu imagen" />
+                <img id="blah-2" class="img-vistaprevia" src="{% static 'subir.png' %}" loading="lazy" />
               </label>
               {{formset.1.ruta_imagen}}
             </div>
-            <div class="col">
+            <div class="col-lg-4 col-sm-12">
               <label id="fichero" class="btn" for="id_form-2-ruta_imagen">
-                <img id="blah-3" class="img-vistaprevia" src="{% static 'subir.png' %}" alt="Tu imagen" />
+                <img id="blah-3" class="img-vistaprevia" src="{% static 'subir.png' %}" loading="lazy" />
               </label>
               {{formset.2.ruta_imagen}}
             </div>
@@ -137,16 +148,14 @@
         </form>
       </div>
     </div>
-
     {% endif %}
     {% endif %}
-
     <div class="card">
-      <div class="card-body" style="overflow-y: scroll; max-height: 40rem;">
+      <div class="card-body" style="overflow-y: scroll; max-height: 100rem;">
         {% if publicacion %}
-        {% for p in publicacion reversed %}
+        {% for p in publicacion%}
         <div class="col">
-          <div><img class="mr-3" style="width: 25px; height:25px;" src="{% static 'no_perfil_foto.jpg' %}" />
+          <div><img class="mr-3" style="width: 25px; height:25px;" src="{% static 'no_perfil_foto.jpg' %}" loading="lazy"/>
           </div>
           <div class="row">
             <div class="col-md-12">
@@ -156,18 +165,21 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" style="justify-content: center;">
           {% for i in imagen  %}
           {% if i.publicacion == p%}
-          <div class="col-lg-4 col-md-6 col-sm-12 contenedor_img mb-2">
-            <img src="{{i.ruta_imagen.url}}" class="imagen-p">
+          <div class="col-lg-4 col-md-6 col-sm-12 contenedor_img">
+            <img src="{{i.ruta_imagen.url}}" class="imagen-p" loading="lazy">
           </div>
           {% endif %}
           {% endfor %}
         </div>
-
         <div class="dropdown-divider"></div>
         {% endfor %}
+        {% else %}
+        <div class="col">
+          <h3>Aun no hay publicaciones</h3>
+        </div>
         {% endif %}
       </div>
     </div>
@@ -176,6 +188,7 @@
 
 {% endblock %}
 {% block scripts %}
+<script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
 <script type="text/javascript">
   function readImage(input, id) {
     if (input.files && input.files[0]) {
@@ -187,16 +200,15 @@
     }
   }
   $("#id_form-0-ruta_imagen").change(function () {
-    // Código a ejecutar cuando se detecta un cambio de archivO
-    readImage(this,'#blah-1');
+    readImage(this, '#blah-1');
   });
+
   $("#id_form-1-ruta_imagen").change(function () {
-    // Código a ejecutar cuando se detecta un cambio de archivO
-    readImage(this,'#blah-2');
+    readImage(this, '#blah-2');
   });
+
   $("#id_form-2-ruta_imagen").change(function () {
-    // Código a ejecutar cuando se detecta un cambio de archivO
-    readImage(this,'#blah-3');
+    readImage(this, '#blah-3');
   });
 </script>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group,Permission
 from .models import Usuario
 # Register your models here.
 
@@ -14,3 +15,4 @@ class PerzonalizadoUserAdmin(UserAdmin):
     search_fields = ('username',)
 
 admin.site.register(Usuario,PerzonalizadoUserAdmin)
+admin.site.register(Permission)
