@@ -45,7 +45,7 @@
 
                             {% else %}
                             <div class="contenedor_img">
-                                <img src="{% static 'sin_foto.jpg' %}" class="imagen-tb" loading="lazy"
+                                <img src="{% static 'imagenes/sin_foto.jpg' %}" class="imagen-tb" loading="lazy"
                                     style="width: 50px;height: 50px;">
                             </div>
 
@@ -62,7 +62,9 @@
     </div>
 
     {% else %}
-    <h1>No existen Usuarios registrados</h1>
+    <div class="text-center">
+        <h1>No tienes solicitudes</h1>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

@@ -132,6 +132,17 @@ class ImagenPublicacion(models.Model):
         db_table = 'IMAGEN_PUBLICACION'
         verbose_name = "Imagen Publicacion"
         verbose_name_plural = "Imagenes Publicaciones"
+    def save(self, *args, **kwargs):
+        try:
+            super().save(*args, **kwargs)
+            img  = Image.open(self.ruta_imagen.path)
+            
+            if img.height > 1000 or img.width > 1000:
+                output_size = (1000,1000)
+                img.thumbnail(output_size)
+                img.save(self.ruta_imagen.path)
+        except:
+            print("no hay foto")
 
 ######SOLICITUDES
 

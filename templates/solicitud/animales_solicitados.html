@@ -15,7 +15,7 @@
                 {% if animal.imagen %}
                 <img src="{{animal.imagen.url}}" class="imagen-tb" loading="lazy">
                 {% else %}
-                <img src="{% static 'sin_foto.jpg' %}" class="imagen-tb" loading="lazy">
+                <img src="{% static 'imagenes/sin_foto.jpg' %}" class="imagen-tb" loading="lazy">
                 {% endif %}
             </div>
             <div>
@@ -40,7 +40,7 @@
                     {% if animal.id|striptags == solicitado.animal.id|striptags %}
                     <tr>
                         <td>{{solicitado.id}}</td>
-                        <td>{{solicitado.usuario.nombres}} {{solicitado.usuario.apellidos}}</td>
+                        <td>{{solicitado.usuario.username}} | {{solicitado.usuario.nombres}} {{solicitado.usuario.apellidos}}</td>
                         <td>{{solicitado.fecha_solicitud|date:"d/m/Y"}}</td>
                         <td>{{solicitado.usuario.email}}</td>
                         <td><a tabindex="0" class="btn " role="button" data-placement="right" data-toggle="popover"

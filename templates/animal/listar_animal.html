@@ -1,7 +1,7 @@
 {% extends "master.html"%}
 {% load staticfiles %}
 {% include 'board/confirm_delete_modal.html' %}
-{% block title %}Animales{% endblock %}
+{% block title %}CEMP | Animales{% endblock %}
 
 {% block content %}
 
@@ -32,7 +32,7 @@
                     {% if animal.imagen %}
                     <img src="{{ animal.imagen.url }}" class="imagen-an" loading="lazy">
                     {% else %}
-                    <img src="{% static 'sin_foto.jpg' %}" class="imagen-an" loading="lazy">
+                    <img src="{% static 'imagenes/sin_foto.jpg' %}" class="imagen-an" loading="lazy">
                     {% endif %}
                 </div>
                 <div class="card-body text-center">

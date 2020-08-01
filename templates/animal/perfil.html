@@ -15,7 +15,7 @@
       {% if animal.imagen %}
       <img src="{{ animal.imagen.url }}" class="perfilfoto" loading="lazy">
       {% else %}
-      <img src="{% static 'sin_foto.jpg' %}" class="perfilfoto" loading="lazy">
+      <img src="{% static 'imagenes/sin_foto.jpg' %}" class="perfilfoto" loading="lazy">
       {% endif %}
     </div>
     <br>
@@ -98,12 +98,18 @@
             </tbody>
           </table>
         </div>
-        <div class="row collapse collapse-fotos" data-parent="#accordionExample" id="collapseFotos">
-          {% for i in imagen %}
+        <div class="row collapse collapse-fotos" data-parent="#accordionExample" id="collapseFotos">       
+          {% if imagen %}
+           {% for i in imagen %}
           <div class="col-lg-3 col-md-6 col-sm-12 contenedor_img">
             <img src="{{i.ruta_imagen.url}}" class="imagen-p" loading="lazy">
           </div>
           {% endfor %}
+          {% else %}
+            <div class="col">
+              <h3>Aun no hay Fotos</h3>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -127,19 +133,19 @@
             {{ formset.management_form }}
             <div class="col-lg-4 col-sm-12">
               <label id="fichero" class="btn" for="id_form-0-ruta_imagen">
-                <img id="blah-1" class="img-vistaprevia" src="{% static 'subir.png' %}" loading="lazy" />
+                <img id="blah-1" class="img-vistaprevia" src="{% static 'imagenes/subir.png' %}" loading="lazy" />
               </label>
               {{formset.0.ruta_imagen}}
             </div>
             <div class="col-lg-4 col-sm-12">
               <label id="fichero" class="btn" for="id_form-1-ruta_imagen">
-                <img id="blah-2" class="img-vistaprevia" src="{% static 'subir.png' %}" loading="lazy" />
+                <img id="blah-2" class="img-vistaprevia" src="{% static 'imagenes/subir.png' %}" loading="lazy" />
               </label>
               {{formset.1.ruta_imagen}}
             </div>
             <div class="col-lg-4 col-sm-12">
               <label id="fichero" class="btn" for="id_form-2-ruta_imagen">
-                <img id="blah-3" class="img-vistaprevia" src="{% static 'subir.png' %}" loading="lazy" />
+                <img id="blah-3" class="img-vistaprevia" src="{% static 'imagenes/subir.png' %}" loading="lazy" />
               </label>
               {{formset.2.ruta_imagen}}
             </div>
@@ -155,7 +161,7 @@
         {% if publicacion %}
         {% for p in publicacion%}
         <div class="col">
-          <div><img class="mr-3" style="width: 25px; height:25px;" src="{% static 'no_perfil_foto.jpg' %}" loading="lazy"/>
+          <div><img class="mr-3" style="width: 25px; height:25px;" src="{% static 'imagenes/no_perfil_foto.jpg' %}" loading="lazy"/>
           </div>
           <div class="row">
             <div class="col-md-12">
