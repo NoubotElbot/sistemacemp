@@ -190,3 +190,9 @@ class ListarMiSolicitud(LoginRequiredMixin,ListView):
     def get(self, request, *args, **kwargs):
         solicitudes = Solicitud.objects.filter(usuario = request.user.id)
         return render(request,self.template_name,{'solicitados': solicitudes}) 
+
+class Galeria(View):
+    template_name = 'galeria.html'
+    def get(self, request, *args, **kwargs):
+        fotos = ImagenPublicacion.objects.all()
+        return render(request,self.template_name,{'fotos':fotos})

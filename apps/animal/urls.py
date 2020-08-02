@@ -21,5 +21,6 @@ urlpatterns = [
     path('rechazar-entrada/<int:pk>',RechazarSolicitud.as_view(), name='rechazar-solicitud'),
     path('listar_solicitado/',ListarSolicitud.as_view(),name='listar_solicitados'),
     path('mis_solicitados/',ListarMiSolicitud.as_view(),name='mis_solicitados'),
+    path('galeria/',Galeria.as_view(),name='galeria'),
     path('<int:id>/',Perfil.as_view(), name='perfil')
 ]
