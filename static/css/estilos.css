@@ -237,7 +237,9 @@ footer p {
 }
 
 .modal_img{
-    width: 50%;
+    max-width: 60%;
+    max-height: 70%;
+    
 }
 
 .modal_open{

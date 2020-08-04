@@ -102,7 +102,7 @@
           {% if imagen %}
            {% for i in imagen %}
           <div class="col-lg-3 col-md-6 col-sm-12 contenedor_img">
-            <img src="{{i.ruta_imagen.url}}" class="imagen-p" loading="lazy">
+            <img src="{{i.ruta_imagen.url}}" class="imagen-p usar_modal" loading="lazy">
           </div>
           {% endfor %}
           {% else %}
@@ -175,7 +175,7 @@
           {% for i in imagen  %}
           {% if i.publicacion == p%}
           <div class="col-lg-4 col-md-6 col-sm-12 contenedor_img">
-            <img src="{{i.ruta_imagen.url}}" class="imagen-p" loading="lazy">
+            <img src="{{i.ruta_imagen.url}}" class="imagen-p usar_modal" loading="lazy">
           </div>
           {% endif %}
           {% endfor %}

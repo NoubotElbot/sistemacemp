@@ -9,8 +9,7 @@
             <div class="mt-2">
                 <div class="form-group">
                     {% if form.instance.imagen %}
-                    <img id="blah" class="img-vistaprevia-crear" src="{{ form.instance.imagen.url }}"
-                        alt="Tu imagen" />
+                    <img id="blah" class="img-vistaprevia-crear" src="{{ form.instance.imagen.url }}" alt="Tu imagen" />
                     {% else %}
                     <img id="blah" class="img-vistaprevia-crear" src="https://via.placeholder.com/300x300.png"
                         alt="Tu imagen" />
@@ -57,9 +56,10 @@
             </div>
             <div class="row form-group">
                 <div class="col col-md-3">{{form.id_adoptante.label}}</div>
-                <div class="col-12 col-md-9">{{form.id_adoptante}}</div>
+                <div class="col-12 col-lg-3 col-md-9">{{form.id_adoptante}}</div>
             </div>
             <div class="mt-2">
+                <a href="{% url 'animal:listar_animal' %}" class="btn btn-warning" >Cancelar</a>
                 <button class="btn btn-primary" type="submit">Guardar</button>
             </div>
         </form>

@@ -1,4 +1,4 @@
-let imagenes = document.querySelectorAll('.imagen-p');
+let imagenes = document.querySelectorAll('.usar_modal');
 let modal = document.querySelector('#modal');
 let img = document.querySelector('#modal_img');
 let boton = document.querySelector('#modal_boton');
