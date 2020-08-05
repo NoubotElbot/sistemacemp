@@ -33,6 +33,7 @@
                         <th scope="col">Fecha de aplicación</th>
                         <th scope="col">Tratamiento</th>
                         <th scope="col">Comentario</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
@@ -46,6 +47,7 @@
                                 data-trigger="focus" title="{{tratado.tratamiento}}"
                                 data-content="{{tratado.tratamiento.descripcion}}">{{tratado.tratamiento}}</a></td>
                         <td>{{tratado.comentario}}</td>
+                        <td>{{tratado.estado}}</td>
                         <td>
                             <a href="{% url 'animal:editar_tratado' tratado.id %}" class="btn btn-primary">Editar</a>
                         </td>

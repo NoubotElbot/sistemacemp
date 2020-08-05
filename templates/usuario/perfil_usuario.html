@@ -1,0 +1,95 @@
+{% extends "master.html"%}
+{% load staticfiles %}
+{% block title %}CEMP | Mis mascotas{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="card bg-light mb-3 col-lg-6 col-md-6 col-sm-12">
+            <div class="row no-gutters">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{usuario.username|title}}</h5>
+                        <p class="card-text"><strong>Rut: </strong>{{usuario.rut}}</p>
+                        <p class="card-text"><strong>Nombres: </strong>{{usuario.nombres|title}}</p>
+                        <p class="card-text"><strong>Apellidos: </strong>{{usuario.apellidos|title}}</p>
+                        <p class="card-text"><strong>Email: </strong>{{usuario.email}}</p>
+                        <p class="card-text"><strong>Teléfono: </strong>{{usuario.telefono}}</p>
+                        <p class="card-text"><strong>Dirección: </strong>{{usuario.direccion}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if solicitados %}
+        <div class="card mb-3 col-lg-6 col-md-6 col-sm-12" style="max-height: 20rem;">
+            <div class="card-header bg-info"><strong class="card-title">Mis solicitudes</strong></div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-info">
+                        <tr>
+                            <th>ID</th>
+                            <th colspan="2">Animal</th>
+                            <th>Fecha de solicitud</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for solicitud in solicitados %}
+                        <tr>
+                            <td>{{solicitud.id}}</td>
+                            <td>{{solicitud.animal}}</td>
+                            <td>{% if solicitud.animal.imagen %}
+                                <div class="contenedor_img">
+                                    <img src="{{solicitud.animal.imagen.url}}" class="imagen-tb" loading="lazy"
+                                        style="width: 50px;height: 50px;">
+                                </div>
+
+                                {% else %}
+                                <div class="contenedor_img">
+                                    <img src="{% static 'imagenes/sin_foto.jpg' %}" class="imagen-tb" loading="lazy"
+                                        style="width: 50px;height: 50px;">
+                                </div>
+
+                                {% endif %}
+                            </td>
+                            <td>{{solicitud.fecha_solicitud|date:"d/m/Y"}}</td>
+                            <td>
+                                <div class="btn-group-vertical">
+                                    <a tabindex="0" class="btn btn-light" role="button" data-placement="right"
+                                        data-toggle="popover" data-trigger="focus"
+                                        title="{{solicitud.estado_solicitud}}"
+                                        data-content="{{solicitud.estado_solicitud.descripcion}}">{{solicitud.estado_solicitud}}</a>
+                                        {% if solicitud.estado_solicitud|striptags|lower == "Pendiente"|lower %}
+                                    <button type="submit" form="cancelar" class="btn btn-danger">Cancelar</button>
+                                    {% endif %}
+                                </div>  
+                                <form id="cancelar" method="POST"
+                                    action="{% url 'animal:cancelar_solicitud' solicitud.id %}">
+                                    {% csrf_token %}
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="card mb-3" style="max-height: 20rem;">
+            <div class="text-center">
+                <h1>No tienes solicitudes</h1>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <!-- fin dercha -->
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script text="text/javascrips">
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
+{% endblock scripts %}

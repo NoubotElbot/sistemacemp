@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from apps.usuario.models import Usuario
+import datetime
 
 class FormularioLogin(AuthenticationForm):
     def __init__(self, *args, **kwargs):
@@ -30,8 +31,17 @@ class FormularioUsuario(forms.ModelForm):
 
     class Meta:
         model = Usuario
-        fields = ['username','email','nombres','apellidos']
+        fields = ['rut','username','email','nombres','apellidos','direccion','fecha_nacimiento','telefono']
         widgets = {
+            'rut': forms.TextInput(
+                attrs = {
+                    'class':'form-control',
+                    'placeholder':'Ingrese su Rut',
+                    'id':'rut',
+                    'name':'rut',
+                    'oninput':"checkRut(this)"
+                }
+            ),
             'username': forms.TextInput(
                 attrs = {
                     'class':'form-control',
@@ -56,14 +66,38 @@ class FormularioUsuario(forms.ModelForm):
                     'class':'form-control',
                     'placeholder':'Ingrese sus apellidos',
                 }
+            ),
+            'direccion': forms.TextInput(
+                attrs={
+                    'class':'form-control',
+                    'placeholder':'Ingrese su direccion',
+                }
+            ),
+            'fecha_nacimiento': forms.TextInput(
+                attrs = {
+                    'type': 'date',
+                    'class':'form-control',
+                    'id':'edad',
+                    'min':'1900-01-01', 
+                    'max': datetime.date.today(),
+                }
+            ),
+            'telefono': forms.NumberInput(
+                attrs = {
+                    'class':'form-control',
+                    'placeholder':'Ingrese su teléfono',
+                    'id':'telefono',
+                    'max':'99999999'
+                }
             )
+
         }
     def clean_password2(self):
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
-        if password1 != password2:
+        contraseña = self.cleaned_data.get('password1')
+        contraseña_con = self.cleaned_data.get('password2')
+        if contraseña != contraseña_con:
             raise forms.ValidationError('Contraseñas no coinciden!')
-        return password2
+        return contraseña
     def save(self,commit = True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password1'])

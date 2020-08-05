@@ -19,8 +19,10 @@ urlpatterns = [
     path('add-entrada/<int:pk>',AgregarSolicitud.as_view(), name='add-solicitud'),
     path('aceptar-entrada/<int:pk>',AceptarSolicitud.as_view(), name='aceptar-solicitud'),
     path('rechazar-entrada/<int:pk>',RechazarSolicitud.as_view(), name='rechazar-solicitud'),
+    path('cancelar-entrada/<int:pk>',CancelarSolicitud.as_view(), name='cancelar_solicitud'),
     path('listar_solicitado/',ListarSolicitud.as_view(),name='listar_solicitados'),
     path('mis_solicitados/',ListarMiSolicitud.as_view(),name='mis_solicitados'),
     path('galeria/',Galeria.as_view(),name='galeria'),
-    path('<int:id>/',Perfil.as_view(), name='perfil')
+    path('<int:id>/',Perfil.as_view(), name='perfil'),
+    path('perfil/',PerfilUsuario.as_view(), name='perfil_usuario'),
 ]

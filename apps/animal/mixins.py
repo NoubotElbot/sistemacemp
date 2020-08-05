@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.contrib import messages
 from .models import Solicitud,Animal
+from django.db.models import Q 
 class LoginYSuperUsuarioMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -11,7 +12,7 @@ class LoginYSuperUsuarioMixin(object):
 class ValidarSolicitudMixin(object):
     def dispatch(self, request, pk, *args, **kwargs):
         if request.user.is_authenticated:
-            solicitud = Solicitud.objects.filter(animal=pk,usuario=request.user.id)
+            solicitud = Solicitud.objects.filter(~Q(estado_solicitud=5),animal=pk,usuario=request.user.id)
             
             if not solicitud:
                 return super().dispatch(request, *args, **kwargs)

@@ -121,7 +121,8 @@ class Perfil(View):
         animal_perfil = get_object_or_404(Animal,id = id)
         publicacion = Publicacion.objects.filter(animal=id).order_by('-fecha_publicacion')
         imagen_p = ImagenPublicacion.objects.filter(publicacion__id__in=publicacion).order_by('-id')
-        return render(request, self.template_name, {'postForm': postForm, 'formset': formset, 'animal': animal_perfil, 'publicacion': publicacion,'imagen':imagen_p})
+        tratamientos_animal = AnimalTratamiento.objects.filter(animal=id).order_by('-fecha_tratamiento')
+        return render(request, self.template_name, {'tratamientos':tratamientos_animal, 'postForm': postForm, 'formset': formset, 'animal': animal_perfil, 'publicacion': publicacion,'imagen':imagen_p})
 
 class AgregarSolicitud(ValidarSolicitudMixin, View):
 
@@ -175,6 +176,16 @@ class RechazarSolicitud(LoginYSuperUsuarioMixin,UpdateView ):
         object.save()
         return redirect('animal:listar_solicitados')
 
+class CancelarSolicitud(LoginRequiredMixin,UpdateView):
+    model = Solicitud
+
+    def post(self,request,pk,*args,**kwargs):
+        object = get_object_or_404(Solicitud,id = pk)
+        estado= EstadosSolicitud.objects.get(id="5")
+        object.estado_solicitud = estado
+        object.save()
+        return redirect('animal:mis_solicitados')
+
 class ListarSolicitud(LoginYSuperUsuarioMixin,ListView):
     template_name = 'solicitud/animales_solicitados.html'
 
@@ -196,3 +207,11 @@ class Galeria(View):
     def get(self, request, *args, **kwargs):
         fotos = ImagenPublicacion.objects.all()
         return render(request,self.template_name,{'fotos':fotos})
+
+class PerfilUsuario(View):
+    template_name = 'usuario/perfil_usuario.html'
+    def get(self,request):
+        idusuario=self.request.user
+        animales = Animal.objects.filter(activo=True, id_adoptante=idusuario.id)
+        solicitudes = Solicitud.objects.filter(usuario = idusuario.id)
+        return render(request,self.template_name,{'solicitados': solicitudes,'animales':animales,'usuario':idusuario})

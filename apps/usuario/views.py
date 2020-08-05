@@ -39,7 +39,7 @@ class ListadoUsuario(LoginYSuperUsuarioMixin,ListView):
     def get_queryset(self):
         return self.model.objects.all()
 
-class RegistrarUsuario(LoginYSuperUsuarioMixin,CreateView):
+class RegistrarUsuario(CreateView):
     model = Usuario
     form_class = FormularioUsuario
     template_name = 'usuario/crear_usuario.html'

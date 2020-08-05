@@ -1,15 +1,28 @@
 {% extends "master.html"%}
-{% block title %}CEMP | Crear Usuario{% endblock %}
+{% load staticfiles %}
+{% block title %}CEMP | Registrar Usuario{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="card" style="margin-top: 1rem;">
-        <div class="card-header"><strong class="card-title">Crear Usuario</strong></div>
+        <div class="card-header"><strong class="card-title">Registrar Usuario</strong></div>
 
         <div class="card-formulario">
             <form method="POST" enctype="multipart/form-data" class="form-horizontal">
                 {% csrf_token %} 
-                <div>{{form.errors}}</div>
+                {% if form.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ form.errors}}</strong> 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+                <div class="row form-group">
+                    <div class="col col-md-3">{{form.rut.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.rut}}</div>
+                    <script src="{% static 'js/validarRut.js' %}"></script>
+                </div>
                 <div class="row form-group">
                     <div class="col col-md-3">{{form.username.label}}</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.username}}</div>
@@ -19,12 +32,24 @@
                     <div class="col-12 col-lg-6 col-md-9">{{form.email}}</div>
                 </div>
                 <div class="row form-group">
+                    <div class="col col-md-3">{{form.telefono.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.telefono}}</div>
+                </div>
+                <div class="row form-group">
                     <div class="col col-md-3">{{form.nombres.label}}</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.nombres}}</div>
                 </div>
                 <div class="row form-group">
                     <div class="col col-md-3">{{form.apellidos.label}}</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.apellidos}}</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">{{form.fecha_nacimiento.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.fecha_nacimiento}}</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">{{form.direccion.label}}</div>
+                    <div class="col-12 col-lg-6 col-md-9">{{form.direccion}}</div>
                 </div>
                 <div class="row form-group">
                     <div class="col col-md-3">{{form.password1.label}}</div>

@@ -26,12 +26,10 @@ CEMP | Galería
 <main role="main">
   <section class="jumbotron text-center" style="background-image: url('{% static 'imagenes/galeria.jpg'%}');">
     <div class="container">
-      <h1>Álbum CEMP</h1>
-      <p>Something short and leading about the collection below—its contents, the creator,
-        etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-      <p>
-        <a href="#" class="btn btn-primary my-2">Main call to action</a>
-        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+      <h1><strong>Álbum CEMP</strong></h1>
+      <p style="margin-top: 10rem;">
+        <a href="{% url 'animal:listar_animal' %}" class="btn btn-primary my-2">Animalitos</a>
+        <a href="{% url 'index' %}" class="btn btn-secondary my-2">Inicio</a>
       </p>
     </div>
   </section>

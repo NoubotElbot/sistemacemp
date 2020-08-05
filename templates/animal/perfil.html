@@ -5,7 +5,7 @@
 {% block content %}
 {% include 'modal.html' %}
 <div class="container">
-  <div class="header">
+  <div class="header bg-white">
     <div class="portada-contenedor">
       <img
         src="https://www.ecestaticos.com/imagestatic/clipping/0a6/095/0a6095e5561df9e8e55aa77eccc57cb2/por-que-los-perros-son-mas-inteligentes-que-los-gatos-segun-la-ciencia.jpg?mtime=1579565836"
@@ -21,29 +21,57 @@
     <br>
     <div class="coltext-center menuperfil">
       <h1>{{animal.nombre}}</h1>
-      {% if user.username|striptags != animal.id_adoptante|striptags %}
+      {% if not animal.id_adoptante %}
       <div style="margin-right: auto;">
-        <form method="POST" action="{% url 'animal:add-solicitud' animal.id %}">{% csrf_token %}
-          <button type="submit" class="btn btn-success">Solicitar Adopción</button>
+        <form id="solicitar" method="POST" action="{% url 'animal:add-solicitud' animal.id %}">{% csrf_token %}
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+            Solicitar Adopción
+          </button>
         </form>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Solicitud para {{animal.nombre}}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ¿Está seguro de enviar la solicitud para adoptar?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="submit" form="solicitar" class="btn btn-primary">Aceptar</button>
+            </div>
+          </div>
+        </div>
       </div>
       {% endif %}
       <div class="accordion" id="accordionExample">
         <div class="row">
           <div class="col">
-            <a class="btn" data-toggle="collapse" href="#collapseInfo" role="button" aria-expanded="false"
-              aria-controls="collapseExample">
+            <a class="btn" style="font-size: x-large;" data-toggle="collapse" href="#collapseInfo" role="button"
+              aria-expanded="false" aria-controls="collapseExample">
               Info
             </a>
           </div>
           <div class="col">
-            <a class="btn" data-toggle="collapse" href="#collapseFotos" role="button" aria-expanded="false"
-              aria-controls="collapseExample">
+            <a class="btn" style="font-size: x-large;" data-toggle="collapse" href="#collapseFotos" role="button"
+              aria-expanded="false" aria-controls="collapseExample">
               Fotos
             </a></div>
-          <div class="col">Opciones</div>
+          <div class="col">
+            <a class="btn" style="font-size: x-large;" data-toggle="collapse" href="#collapseTratamiento" role="button"
+              aria-expanded="false" aria-controls="collapseExample">
+              Tratamientos
+            </a>
+          </div>
         </div>
-        <div class="col collapse" id="collapseInfo" data-parent="#accordionExample" style="text-align: justify; margin-top: 10px;">
+        <div class="col collapse" id="collapseInfo" data-parent="#accordionExample"
+          style="text-align: justify; margin-top: 10px;">
           <table class="table">
             <tbody>
               <tr>
@@ -98,19 +126,51 @@
             </tbody>
           </table>
         </div>
-        <div class="row collapse collapse-fotos" data-parent="#accordionExample" id="collapseFotos">       
+        <div class="row collapse collapse-fotos" style="width: 100%;" data-parent="#accordionExample" id="collapseFotos">
           {% if imagen %}
-           {% for i in imagen %}
+          {% for i in imagen %}
           <div class="col-lg-3 col-md-6 col-sm-12 contenedor_img">
             <img src="{{i.ruta_imagen.url}}" class="imagen-p usar_modal" loading="lazy">
           </div>
           {% endfor %}
           {% else %}
-            <div class="col">
-              <h3>Aun no hay Fotos</h3>
-            </div>
+          <div class="col">
+            <h3>Aun no hay Fotos</h3>
+          </div>
           {% endif %}
         </div>
+        <!-- Collapse Tratamientos -->
+        <div class="col collapse" id="collapseTratamiento" data-parent="#accordionExample"
+          style="text-align: justify; margin-top: 10px;">
+          {% if tratamientos %}
+          <table class="table">
+            <thead style="background-color:#62b9f3; color: rgb(244, 246, 248);text-align:center;">
+              <tr>
+                <th scope="col">Tratamientos</th>
+                <th scope="col">Fecha de aplicación</th>
+                <th scope="col">Estado</th>
+              </tr>
+            </thead>
+            <tbody style="text-align:center;">
+              {% for t in tratamientos %}
+              <tr>
+                <td><a tabindex="0" class="btn " role="button" data-placement="right" data-toggle="popover"
+                    data-trigger="focus" title="{{t.tratamiento}}"
+                    data-content="{{t.tratamiento.descripcion}}">{{t.tratamiento}}</a></td>
+                <td>{{t.fecha_tratamiento|date:"d/m/Y"}}</td>
+                <td>{{t.estado}}</td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <div class="text-center">
+                <br>
+                <h3>Este animalito no tiene tratamientos a la fecha</h3>
+              </div>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+        <!-- fin colapse tratamientos -->
       </div>
     </div>
     <br>
@@ -161,7 +221,8 @@
         {% if publicacion %}
         {% for p in publicacion%}
         <div class="col">
-          <div><img class="mr-3" style="width: 25px; height:25px;" src="{% static 'imagenes/no_perfil_foto.jpg' %}" loading="lazy"/>
+          <div><img class="mr-3" style="width: 25px; height:25px;" src="{% static 'imagenes/no_perfil_foto.jpg' %}"
+              loading="lazy" />
           </div>
           <div class="row">
             <div class="col-md-12">
@@ -216,5 +277,10 @@
   $("#id_form-2-ruta_imagen").change(function () {
     readImage(this, '#blah-3');
   });
+
+  $(function () {
+    $('[data-toggle="popover"]').popover()
+  })
+
 </script>
 {% endblock %}
