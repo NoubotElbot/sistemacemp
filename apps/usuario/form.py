@@ -36,7 +36,7 @@ class FormularioUsuario(forms.ModelForm):
             'rut': forms.TextInput(
                 attrs = {
                     'class':'form-control',
-                    'placeholder':'Ingrese su Rut',
+                    'placeholder':'Ingrese su Rut sin puntos ej: 12345678-9',
                     'id':'rut',
                     'name':'rut',
                     'oninput':"checkRut(this)"

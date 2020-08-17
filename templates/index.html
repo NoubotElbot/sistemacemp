@@ -38,19 +38,23 @@ CEMP | Inicio
                     <rect width="100%" height="100%" fill="#777" /></svg>
 
                 <div class="container">
-                    <div class="carousel-caption text-left" >
+                    <div class="carousel-caption text-left">
                         <br>
                         <br>
-                        
-                        <h1 >CEMP </h1>
-                        <div >
-                        <p >Organización de voluntarios llamada “Cuidado, Esterilización y Manejo de los Perrunos” con sus siglas (CEMP) conformado por el alumnado de la Universidad Santa María.Es una organización sin fines de lucro encargada en el cuidado y manejo de los animales para su futura adopción.</p>
+
+                        <h1>CEMP </h1>
+                        <div>
+                            <p>Organización de voluntarios llamada “Cuidado, Esterilización y Manejo de los Perrunos”
+                                con sus siglas (CEMP) conformado por el alumnado de la Universidad Santa María.Es una
+                                organización sin fines de lucro encargada en el cuidado y manejo de los animales para su
+                                futura adopción.</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://www.ecestaticos.com/imagestatic/clipping/0a6/095/0a6095e5561df9e8e55aa77eccc57cb2/por-que-los-perros-son-mas-inteligentes-que-los-gatos-segun-la-ciencia.jpg?mtime=1579565836" width="100%" height="100%" style="object-fit: cover;">
+                <img src="https://www.ecestaticos.com/imagestatic/clipping/0a6/095/0a6095e5561df9e8e55aa77eccc57cb2/por-que-los-perros-son-mas-inteligentes-que-los-gatos-segun-la-ciencia.jpg?mtime=1579565836"
+                    width="100%" height="100%" style="object-fit: cover;">
                 <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
                     <rect width="100%" height="100%" fill="#777" /></svg>
@@ -59,20 +63,24 @@ CEMP | Inicio
                         <br>
                         <br>
                         <h1>Marc Bekoff.</h1>
-                        <p>Los animales no son propiedades o cosas, sino organismos vivientes, sujetos de una vida, que merecen nuestra compasión, respeto, amistad y apoyo (Marc Bekoff)</p>
+                        <p>Los animales no son propiedades o cosas, sino organismos vivientes, sujetos de una vida, que
+                            merecen nuestra compasión, respeto, amistad y apoyo (Marc Bekoff)</p>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="{% static 'imagenes/marley.jpg' %}" width="100%" height="100%" style="object-fit: cover; object-position: bottom;">
+                <img src="{% static 'imagenes/marley.jpg' %}" width="100%" height="100%"
+                    style="object-fit: cover; object-position: bottom;">
                 <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
                     <rect width="100%" height="100%" fill="#777" /></svg>
                 <div class="container">
                     <div class="carousel-caption text-right">
                         <h1>Echa un vistazo</h1>
-                        <p>Mira la colección de todas las fotografías que se han subido en los diferentes perfiles de nuestros animalitos.</p>
-                        <p><a class="btn btn-lg btn-primary" href="{% url 'animal:galeria' %}" role="button">Ver Galería</a></p>
+                        <p>Mira la colección de todas las fotografías que se han subido en los diferentes perfiles de
+                            nuestros animalitos.</p>
+                        <p><a class="btn btn-lg btn-primary" href="{% url 'animal:galeria' %}" role="button">Ver
+                                Galería</a></p>
                     </div>
                 </div>
             </div>
@@ -91,8 +99,8 @@ CEMP | Inicio
         <div class="row justify-content-center">
             {% if not user.is_authenticated %}
             <div class="col-lg-4">
-                <img src="{% static 'imagenes/no_perfil_foto.jpg' %}" class="bd-placeholder-img rounded-circle" width="140"
-                    height="140" style="object-fit: cover;">
+                <img src="{% static 'imagenes/no_perfil_foto.jpg' %}" class="bd-placeholder-img rounded-circle"
+                    width="140" height="140" style="object-fit: cover;">
                 <h2>Inicia Sesión</h2>
                 <p>Inicia sesión para revisar tus adopciones y solicitudes de nuestros amigos</p>
                 <p><a class="btn btn-info" href="{% url 'login' %}" role="button">Ir al login &raquo;</a></p>
@@ -102,14 +110,17 @@ CEMP | Inicio
                 <img src="{% static 'imagenes/sin_foto.jpg' %}" class="bd-placeholder-img rounded-circle" width="140"
                     height="140" style="object-fit: cover;">
                 <h2>Hey! mira a nuestros amigos</h2>
-                <p>Observa el lista de las mascotas a nuestro cuidado, entra a sus perfiles para más información y observa las tiernas fotos que tenemos de cada uno de ellos.<a class="btn btn-info" href="{% url 'animal:listar_animal' %}" role="button">Ver listado
+                <p>Observa la lista de mascotas a nuestro cuidado, entra a sus perfiles para más información y observa
+                    las tiernas fotos que tenemos de cada uno de ellos.</p>
+                <p><a class="btn btn-info" href="{% url 'animal:listar_animal' %}" role="button">Ver listado
                         &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <img src="{% static 'imagenes/grupo_personas.png' %}" class="bd-placeholder-img " width="140"
                     height="140" style="object-fit: cover;">
                 <h2>Únetenos</h2>
-                <p>Contáctanos y forma parte de nuestro voluntariado. Ayúdanos a promover la tenencia responsable de animales a toda la comunidad universitaria de nuestra sede.</p>
+                <p>Contáctanos y forma parte de nuestro voluntariado. Ayúdanos a promover la tenencia responsable de
+                    animales a toda la comunidad universitaria de nuestra sede.</p>
                 <p><a class="btn btn-info" href="#" role="button">Ver detalles&raquo;</a></p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
@@ -118,14 +129,16 @@ CEMP | Inicio
 
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">Conoce quienes somos. <span class="text-muted">Ayudar es tarea de todos</span></h2>
-                <p class="lead">CEMP ("Cuidado, Esterilización y Manejo de los Perrunos”) conformado por el alumnado de la Universidad Santa María, José Miguel Carrera ubicado en Avenida Federico Santa María 6090, Viña del Mar. Chile.</p>
+                <h2 class="featurette-heading">Conoce quienes somos. <span class="text-muted">Ayudar es tarea de
+                        todos</span></h2>
+                <p class="lead">CEMP ("Cuidado, Esterilización y Manejo de los Perrunos”) conformado por el alumnado de
+                    la Universidad Santa María, José Miguel Carrera ubicado en Avenida Federico Santa María 6090, Viña
+                    del Mar. Chile.</p>
             </div>
             <div class="col-md-5">
                 <iframe
                     src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fcempusm%2Fposts%2F1567201243447152&show_text=false"
-                    width="100%"
-                    height="570" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                    width="100%" height="570" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
                     allowTransparency="true" allow="encrypted-media"></iframe>
             </div>
         </div>
@@ -134,13 +147,16 @@ CEMP | Inicio
 
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading">Tratamientos a nuestros Animalitos <span class="text-muted">Responsabilidad con ellos</span></h2>
-                <p class="lead">Se realizaron desparasitaciones internas y externas a los canes de nuestra sede, además de ponerles nuevos collares a los regalones para esperarlos a ustedes bonitos y gorditos </p>
+                <h2 class="featurette-heading">Tratamientos a nuestros Animalitos <span
+                        class="text-muted">Responsabilidad con ellos</span></h2>
+                <p class="lead">Se realizaron desparasitaciones internas y externas a los canes de nuestra sede, además
+                    de ponerles nuevos collares a los regalones para esperarlos a ustedes bonitos y gorditos </p>
             </div>
             <div class="col-md-5 order-md-1">
-                <img src="{% static 'imagenes/tratamientos.jpg' %}" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
-                height="500"  preserveAspectRatio="xMidYMid slice"
-                focusable="false" role="img" aria-label="Placeholder: 500x500" >
+                <img src="{% static 'imagenes/tratamientos.jpg' %}"
+                    class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                    height="500" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                    aria-label="Placeholder: 500x500">
 
             </div>
         </div>
@@ -150,12 +166,14 @@ CEMP | Inicio
         <div class="row featurette">
             <div class="col-md-7">
                 <h2 class="featurette-heading">¡Entregamos en adopcion! </h2>
-                <h3 ><span class="text-muted">Nos entristece saber que se van, pero nos alegra saber que seran felices en su nueva familia</span></h3>
+                <h3><span class="text-muted">Nos entristece saber que se van, pero nos alegra saber que seran felices en
+                        su nueva familia</span></h3>
             </div>
             <div class="col-md-5">
-                <img src="{% static 'imagenes/adoptados.PNG' %}" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
-                height="500"  preserveAspectRatio="xMidYMid slice"
-                focusable="false" role="img" aria-label="Placeholder: 500x500" >
+                <img src="{% static 'imagenes/adoptados.PNG' %}"
+                    class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                    height="500" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                    aria-label="Placeholder: 500x500">
             </div>
         </div>
 

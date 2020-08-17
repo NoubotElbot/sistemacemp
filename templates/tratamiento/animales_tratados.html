@@ -4,6 +4,16 @@
 
 {% block content %}
 <div class="container">
+    <div class="col-md-12 search">
+        <form method="GET">
+            <div class="input-group mb-3">
+                <input name="buscar" type="text" class="form-control" placeholder="Buscar..." aria-label="Recipient's username" aria-describedby="button-addon2" value="{{request.GET.buscar}}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-success" type="submit" id="button-addon2">Buscar</button>
+                </div>
+              </div>
+        </form>
+    </div>
     {% if user.is_staff %}
     <div class="contenedor-crear col-lg-3 col-md-4 col-sm-12">
         <a href="{% url 'animal:crear_tratado' %}" class="btn btn-lg btn-block btn-info">Crear</a>

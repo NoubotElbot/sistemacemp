@@ -8,6 +8,7 @@
         <div class="card-header"><strong class="card-title">Registrar Usuario</strong></div>
 
         <div class="card-formulario">
+            <h6>Los campos con (*) son obligatorios</h6>
             <form method="POST" enctype="multipart/form-data" class="form-horizontal">
                 {% csrf_token %} 
                 {% if form.errors %}
@@ -19,16 +20,16 @@
                 </div>
                 {% endif %}
                 <div class="row form-group">
-                    <div class="col col-md-3">{{form.rut.label}}</div>
+                    <div class="col col-md-3">{{form.rut.label}} *</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.rut}}</div>
                     <script src="{% static 'js/validarRut.js' %}"></script>
                 </div>
                 <div class="row form-group">
-                    <div class="col col-md-3">{{form.username.label}}</div>
+                    <div class="col col-md-3">{{form.username.label}} *</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.username}}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col col-md-3">{{form.email.label}}</div>
+                    <div class="col col-md-3">{{form.email.label}} *</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.email}}</div>
                 </div>
                 <div class="row form-group">
@@ -36,15 +37,15 @@
                     <div class="col-12 col-lg-6 col-md-9">{{form.telefono}}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col col-md-3">{{form.nombres.label}}</div>
+                    <div class="col col-md-3">{{form.nombres.label}} *</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.nombres}}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col col-md-3">{{form.apellidos.label}}</div>
+                    <div class="col col-md-3">{{form.apellidos.label}} *</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.apellidos}}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col col-md-3">{{form.fecha_nacimiento.label}}</div>
+                    <div class="col col-md-3">{{form.fecha_nacimiento.label}} *</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.fecha_nacimiento}}</div>
                 </div>
                 <div class="row form-group">
@@ -52,11 +53,11 @@
                     <div class="col-12 col-lg-6 col-md-9">{{form.direccion}}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col col-md-3">{{form.password1.label}}</div>
+                    <div class="col col-md-3">{{form.password1.label}} *</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.password1}}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col col-md-3">{{form.password2.label}}</div>
+                    <div class="col col-md-3">{{form.password2.label}} *</div>
                     <div class="col-12 col-lg-6 col-md-9">{{form.password2}}</div>
                 </div>
                 <div class="mt-2">

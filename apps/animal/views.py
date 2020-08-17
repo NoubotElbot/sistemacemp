@@ -59,8 +59,11 @@ class EliminarTratamiento(LoginYSuperUsuarioMixin,DeleteView):
 class ListarAnimalesTratados(LoginYSuperUsuarioMixin,ListView):
     template_name = 'tratamiento/animales_tratados.html'
     def get(self,request,*args,**kwargs):
-        tratados = AnimalTratamiento.objects.all()
+        queryset = request.GET.get("buscar")
+        tratados = AnimalTratamiento.objects.all().order_by('-fecha_tratamiento')
         animales = Animal.objects.filter(animaltratamiento__isnull=False).distinct()
+        if queryset:
+            animales = Animal.objects.filter(animaltratamiento__isnull=False, nombre__icontains=queryset).distinct()
         return render(request,self.template_name,{'animales':animales,'tratados':tratados})
 
 class CrearAnimalTratado(LoginYSuperUsuarioMixin,CreateView):
@@ -179,10 +182,11 @@ class RechazarSolicitud(LoginYSuperUsuarioMixin,UpdateView ):
 class CancelarSolicitud(LoginRequiredMixin,UpdateView):
     model = Solicitud
 
-    def post(self,request,pk,*args,**kwargs):
+    def post(self,request,pk,*args,**kwargs):   
         object = get_object_or_404(Solicitud,id = pk)
-        estado= EstadosSolicitud.objects.get(id="5")
+        estado= EstadosSolicitud.objects.get(id = "5")    
         object.estado_solicitud = estado
+        print(object.estado_solicitud)
         object.save()
         return redirect('animal:mis_solicitados')
 
@@ -190,9 +194,12 @@ class ListarSolicitud(LoginYSuperUsuarioMixin,ListView):
     template_name = 'solicitud/animales_solicitados.html'
 
     def get(self, request, *args, **kwargs):
+        queryset = request.GET.get("buscar")
         solicitudes = Solicitud.objects.all()
         # animales = Animal.objects.raw('SELECT distinct animal.* FROM animal inner join solicitud on animal.id = solicitud.animal_id;')
         animales = Animal.objects.filter(solicitud__isnull = False).distinct()
+        if queryset:
+            animales = Animal.objects.filter(activo=True,solicitud__isnull = False, nombre__icontains=queryset).distinct()
         return render(request,self.template_name,{'solicitados': solicitudes, 'animales': animales})
 
 class ListarMiSolicitud(LoginRequiredMixin,ListView):

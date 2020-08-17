@@ -53,19 +53,15 @@
                         </td>
                         <td>{{solicitud.fecha_solicitud|date:"d/m/Y"}}</td>
                         <td>
-                            <div class="btn-group-vertical">
-                                <a tabindex="0" class="btn btn-light" role="button" data-placement="right"
-                                    data-toggle="popover" data-trigger="focus"
-                                    title="{{solicitud.estado_solicitud}}"
-                                    data-content="{{solicitud.estado_solicitud.descripcion}}">{{solicitud.estado_solicitud}}</a>
-                                    {% if solicitud.estado_solicitud|striptags|lower == "Pendiente"|lower %}
-                                <button type="submit" form="cancelar" class="btn btn-danger">Cancelar</button>
-                                {% endif %}
-                            </div>  
-                            <form id="cancelar" method="POST"
-                                action="{% url 'animal:cancelar_solicitud' solicitud.id %}">
+                            <a tabindex="0" class="btn btn-light" role="button" data-placement="right"
+                                data-toggle="popover" data-trigger="focus" title="{{solicitud.estado_solicitud}}"
+                                data-content="{{solicitud.estado_solicitud.descripcion}}">{{solicitud.estado_solicitud}}</a>
+                            {% if solicitud.estado_solicitud|lower == "Pendiente"|lower %}
+                            <form method="POST" action="{% url 'animal:cancelar_solicitud' solicitud.id %}">
                                 {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Cancelar</button>
                             </form>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

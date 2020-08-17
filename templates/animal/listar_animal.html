@@ -45,7 +45,7 @@
                     {% if user.is_staff %}
                     <div class="btn-group btn-group-lg" role="group" aria-label="Basic example" style="width: 100%;">
                         <a href="{% url 'animal:editar_animal' animal.id %}" class="btn btn-lg btn-secondary">Editar</a>
-                        <a href="{% url 'animal:eliminar_animal' animal.id %}" class="btn btn-lg btn-danger">Elimnar</a>
+                        <a href="{% url 'animal:eliminar_animal' animal.id %}" class="btn btn-lg btn-danger">Eliminar</a>
                     </div>
                     {% endif %}
                 </div>
@@ -55,7 +55,7 @@
     </div>
 
     {% else %}
-    <div class="text-center">
+    <div class="text-center" style="margin-top: 1rem;">
         <h1>No hay animalitos :c</h1>
     </div>
     {% endif %}
